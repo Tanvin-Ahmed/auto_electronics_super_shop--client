@@ -19,19 +19,17 @@ import Message from "../../components/Message/Message";
 
 const CartScreen = () => {
 	const navigate = useNavigate();
-	const { id: productId } = useParams();
+	const { id } = useParams();
 	const [searchParams] = useSearchParams();
 	const { qty } = Object.fromEntries([...searchParams]);
 	const dispatch = useDispatch();
 	const { cartItems } = useSelector(state => state.cart);
 
-	console.log(cartItems);
-
 	useEffect(() => {
-		if (productId) {
-			dispatch(addToCart(productId, qty));
+		if (id) {
+			dispatch(addToCart(id, qty));
 		}
-	}, [dispatch, productId, qty]);
+	}, [dispatch, id, qty]);
 
 	const removeFroCartHandler = productId => {
 		dispatch(removeFromCart(productId));
