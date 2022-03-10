@@ -6,6 +6,10 @@ import HomeScreen from "./views/HomeScreen/HomeScreen";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductScreen from "./views/ProductScreen/ProductScreen";
 import CartScreen from "./views/CartScreen/CartScreen";
+import LoginScreen from "./views/LoginScreen/LoginScreen";
+import ProfileScreen from "./views/ProfileScreen/ProfileScreen";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import ShippingScreen from "./views/ShippingScreen/ShippingScreen";
 
 function App() {
 	return (
@@ -15,6 +19,23 @@ function App() {
 				<main className="py-3">
 					<Container>
 						<Routes>
+							<Route path="/login" element={<LoginScreen />} />
+							<Route
+								path="/profile"
+								element={
+									<PrivateRoute>
+										<ProfileScreen />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/shipping"
+								element={
+									<PrivateRoute>
+										<ShippingScreen />
+									</PrivateRoute>
+								}
+							/>
 							<Route path="/" element={<HomeScreen />} />
 							<Route path="/product/:id" element={<ProductScreen />} />
 							<Route path="/cart/:id" element={<CartScreen />} />
