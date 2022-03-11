@@ -109,20 +109,21 @@ export const logout = () => dispatch => {
 export const refreshToken = () => async (dispatch, getState) => {
 	try {
 		const {
-			userLogin: {
-				userInfo: { token },
-			},
+			userLogin: { userInfo },
 		} = getState();
 
-		const config = { headers: { Authorization: `Bearer ${token}` } };
+		const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
 		const { data } = await axios.post(
 			`${rootUrl}/users/refresh-token`,
-			{ token },
+			{ token: userInfo.token },
 			config
 		);
 
-		dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+		dispatch({
+			type: USER_LOGIN_SUCCESS,
+			payload: { ...userInfo, token: data },
+		});
 		localStorage.setItem("userInfo", JSON.stringify(data));
 	} catch (error) {
 		dispatch({
