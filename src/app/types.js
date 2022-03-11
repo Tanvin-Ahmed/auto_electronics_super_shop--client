@@ -12,6 +12,7 @@ export const PRODUCT_DETAILS_FAIL = "product details fail";
 export const CART_ADD_ITEM = "cart add item";
 export const CART_REMOVE_ITEM = "cart remove item";
 export const CART_SAVE_SHIPPING_ADDRESS = "cart save shipping address";
+export const CART_SAVE_PAYMENT_METHOD = "cart save payment method";
 
 // login type
 export const USER_LOGIN_REQUEST = "user login request";

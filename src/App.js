@@ -13,6 +13,7 @@ import ShippingScreen from "./views/ShippingScreen/ShippingScreen";
 import { useEffect } from "react";
 import { refreshToken } from "./app/actions/userActions";
 import { useDispatch } from "react-redux";
+import PaymentScreen from "./views/PaymentScreen/PaymentScreen";
 
 function App() {
 	const dispatch = useDispatch();
@@ -41,6 +42,14 @@ function App() {
 								element={
 									<PrivateRoute>
 										<ShippingScreen />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/payment"
+								element={
+									<PrivateRoute>
+										<PaymentScreen />
 									</PrivateRoute>
 								}
 							/>

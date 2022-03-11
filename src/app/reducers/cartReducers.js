@@ -1,6 +1,7 @@
 import {
 	CART_ADD_ITEM,
 	CART_REMOVE_ITEM,
+	CART_SAVE_PAYMENT_METHOD,
 	CART_SAVE_SHIPPING_ADDRESS,
 } from "../types";
 
@@ -9,6 +10,7 @@ const initialState = {
 	loading: false,
 	error: "",
 	shippingAddress: {},
+	paymentMethod: "",
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -40,6 +42,12 @@ const cartReducer = (state = initialState, action) => {
 			return {
 				...state,
 				shippingAddress: action.payload,
+			};
+
+		case CART_SAVE_PAYMENT_METHOD:
+			return {
+				...state,
+				paymentMethod: action.payload,
 			};
 
 		default:
