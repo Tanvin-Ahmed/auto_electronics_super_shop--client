@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { refreshToken } from "./app/actions/userActions";
 import { useDispatch } from "react-redux";
 import PaymentScreen from "./views/PaymentScreen/PaymentScreen";
+import PlaceOrderScreen from "./views/PlaceOrderScreen/PlaceOrderScreen";
 
 function App() {
 	const dispatch = useDispatch();
@@ -50,6 +51,14 @@ function App() {
 								element={
 									<PrivateRoute>
 										<PaymentScreen />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/place-order"
+								element={
+									<PrivateRoute>
+										<PlaceOrderScreen />
 									</PrivateRoute>
 								}
 							/>
