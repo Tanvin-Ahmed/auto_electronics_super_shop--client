@@ -10,8 +10,16 @@ import LoginScreen from "./views/LoginScreen/LoginScreen";
 import ProfileScreen from "./views/ProfileScreen/ProfileScreen";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import ShippingScreen from "./views/ShippingScreen/ShippingScreen";
+// import { useEffect } from "react";
+// import { refreshToken } from "./app/actions/userActions";
+// import { useDispatch } from "react-redux";
 
 function App() {
+	// const dispatch = useDispatch();
+	// useEffect(() => {
+	// 	dispatch(refreshToken());
+	// }, [dispatch]);
+
 	return (
 		<>
 			<Router>

@@ -24,16 +24,23 @@ const rootReducer = combineReducers({
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
-	? { cartItems: [...JSON.parse(localStorage.getItem("cartItems"))] }
-	: { cartItems: [] };
+	? JSON.parse(localStorage.getItem("cartItems"))
+	: [];
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
-	? { userInfo: JSON.parse(localStorage.getItem("userInfo")) }
-	: { userInfo: {} };
+	? JSON.parse(localStorage.getItem("userInfo"))
+	: {};
+
+const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
+	? JSON.parse(localStorage.getItem("shippingAddress"))
+	: {};
 
 const initialState = {
-	cart: cartItemsFromStorage,
-	userLogin: userInfoFromStorage,
+	cart: {
+		cartItems: cartItemsFromStorage,
+		shippingAddress: shippingAddressFromStorage,
+	},
+	userLogin: { userInfo: userInfoFromStorage },
 };
 
 const middleware = [thunk];
