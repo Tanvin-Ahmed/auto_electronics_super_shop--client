@@ -124,7 +124,10 @@ export const refreshToken = () => async (dispatch, getState) => {
 			type: USER_LOGIN_SUCCESS,
 			payload: { ...userInfo, token: data },
 		});
-		localStorage.setItem("userInfo", JSON.stringify(data));
+		localStorage.setItem(
+			"userInfo",
+			JSON.stringify({ ...userInfo, token: data })
+		);
 	} catch (error) {
 		dispatch({
 			type: USER_LOGIN_FAIL,
