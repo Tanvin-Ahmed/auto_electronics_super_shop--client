@@ -106,28 +106,28 @@ export const logout = () => dispatch => {
 	dispatch(dispatch({ type: USER_LOGOUT }));
 };
 
-// export const refreshToken = () => async (dispatch, getState) => {
-// 	try {
-// 		const {
-// 			userLogin: {
-// 				userInfo: { token },
-// 			},
-// 		} = getState();
+export const refreshToken = () => async (dispatch, getState) => {
+	try {
+		const {
+			userLogin: {
+				userInfo: { token },
+			},
+		} = getState();
 
-// 		const config = { headers: { Authorization: `Bearer ${token}` } };
+		const config = { headers: { Authorization: `Bearer ${token}` } };
 
-// 		const { data } = await axios.post(
-// 			`${rootUrl}/users/refresh-token`,
-// 			token,
-// 			config
-// 		);
+		const { data } = await axios.post(
+			`${rootUrl}/users/refresh-token`,
+			token,
+			config
+		);
 
-// 		dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-// 		localStorage.setItem("userInfo", JSON.stringify(data));
-// 	} catch (error) {
-// 		dispatch({
-// 			type: USER_LOGIN_FAIL,
-// 			payload: error.response ? error.response.data.message : error.message,
-// 		});
-// 	}
-// };
+		dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+		localStorage.setItem("userInfo", JSON.stringify(data));
+	} catch (error) {
+		dispatch({
+			type: USER_LOGIN_FAIL,
+			payload: error.response ? error.response.data.message : error.message,
+		});
+	}
+};
