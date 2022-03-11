@@ -118,7 +118,7 @@ export const refreshToken = () => async (dispatch, getState) => {
 
 		const { data } = await axios.post(
 			`${rootUrl}/users/refresh-token`,
-			token,
+			{ token },
 			config
 		);
 
