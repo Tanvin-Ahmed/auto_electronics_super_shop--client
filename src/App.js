@@ -10,6 +10,7 @@ import LoginScreen from "./views/LoginScreen/LoginScreen";
 import ProfileScreen from "./views/ProfileScreen/ProfileScreen";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import ShippingScreen from "./views/ShippingScreen/ShippingScreen";
+import PlaceOrderScreen from "./views/PlaceOrderScreen/PlaceOrderScreen";
 // import { useEffect } from "react";
 // import { refreshToken } from "./app/actions/userActions";
 // import { useDispatch } from "react-redux";
@@ -41,6 +42,14 @@ function App() {
 								element={
 									<PrivateRoute>
 										<ShippingScreen />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/place-order"
+								element={
+									<PrivateRoute>
+										<PlaceOrderScreen />
 									</PrivateRoute>
 								}
 							/>
