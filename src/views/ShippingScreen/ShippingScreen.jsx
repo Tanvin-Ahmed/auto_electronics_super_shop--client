@@ -36,7 +36,6 @@ const ShippingScreen = () => {
 						required
 					/>
 				</FormGroup>
-
 				<FormGroup controlId="city">
 					<Form.Label>City</Form.Label>
 					<Form.Control
@@ -47,7 +46,6 @@ const ShippingScreen = () => {
 						required
 					/>
 				</FormGroup>
-
 				<FormGroup controlId="postalCode">
 					<Form.Label>City</Form.Label>
 					<Form.Control
@@ -58,7 +56,6 @@ const ShippingScreen = () => {
 						required
 					/>
 				</FormGroup>
-
 				<FormGroup controlId="country">
 					<Form.Label>City</Form.Label>
 					<Form.Control
@@ -69,8 +66,7 @@ const ShippingScreen = () => {
 						required
 					/>
 				</FormGroup>
-
-				<Button type="submit" variant="primary" className="my-3">
+				<Button type="submit" variant="primary" className="my-3 col-12">
 					Continue
 				</Button>
 			</Form>

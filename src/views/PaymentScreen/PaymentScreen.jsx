@@ -10,9 +10,7 @@ const PaymentScreen = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { shippingAddress } = useSelector(state => state.cart);
-	const [paymentMethod, setPaymentMethod] = useState("paypal");
-
-	console.log(paymentMethod);
+	const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
 	if (!shippingAddress) {
 		navigate("/shipping");
@@ -32,7 +30,7 @@ const PaymentScreen = () => {
 				<FormGroup controlId="address">
 					<Form.Label as="legend">Select Method</Form.Label>
 					<Col>
-						<Form.Check
+						{/* <Form.Check
 							type="radio"
 							label="PayPal or credit cart"
 							id="PayPal"
@@ -40,7 +38,7 @@ const PaymentScreen = () => {
 							value="PayPal"
 							checked
 							onChange={e => setPaymentMethod(e.target.value)}
-						></Form.Check>
+						></Form.Check> */}
 
 						<Form.Check
 							type="radio"
@@ -48,11 +46,12 @@ const PaymentScreen = () => {
 							id="Stripe"
 							name="paymentMethod"
 							value="Stripe"
+							checked
 							onChange={e => setPaymentMethod(e.target.value)}
 						></Form.Check>
 					</Col>
 				</FormGroup>
-				<Button type="submit" variant="primary" className="my-3">
+				<Button type="submit" variant="primary" className="my-3 col-12">
 					Continue
 				</Button>
 			</Form>

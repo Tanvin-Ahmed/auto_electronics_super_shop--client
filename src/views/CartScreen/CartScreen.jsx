@@ -105,7 +105,7 @@ const CartScreen = () => {
 					<ListGroup.Item>
 						<Button
 							type="button"
-							className="btn-black"
+							className="btn-block col-12"
 							disabled={cartItems.length === 0}
 							onClick={checkoutHandler}
 						>

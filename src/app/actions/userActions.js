@@ -129,9 +129,12 @@ export const refreshToken = () => async (dispatch, getState) => {
 			JSON.stringify({ ...userInfo, token: data })
 		);
 	} catch (error) {
-		dispatch({
-			type: USER_LOGIN_FAIL,
-			payload: error.response ? error.response.data.message : error.message,
-		});
+		if (error.response && error.response.data.message === "jwt expired") {
+			localStorage.removeItem("userInfo");
+			dispatch({
+				type: USER_LOGIN_SUCCESS,
+				payload: {},
+			});
+		}
 	}
 };

@@ -35,3 +35,18 @@ export const UPDATE_USER_PROFILE_REQUEST = "update user profile request";
 export const UPDATE_USER_PROFILE_SUCCESS = "update user profile success";
 export const UPDATE_USER_PROFILE_FAIL = "update user profile fail";
 export const UPDATE_USER_PROFILE_RESET = "update user profile reset";
+
+// order
+export const ORDER_CREATE_REQUEST = "order create request";
+export const ORDER_CREATE_SUCCESS = "order create success";
+export const ORDER_CREATE_FAIL = "order create fail";
+
+export const ORDER_DETAILS_REQUEST = "order details request";
+export const ORDER_DETAILS_SUCCESS = "order details success";
+export const ORDER_DETAILS_FAIL = "order details fail";
+
+//order pay
+export const ORDER_PAY_REQUEST = "order pay request";
+export const ORDER_PAY_SUCCESS = "order pay success";
+export const ORDER_PAY_FAIL = "order pay fail";
+export const ORDER_PAY_RESET = "order pay reset";

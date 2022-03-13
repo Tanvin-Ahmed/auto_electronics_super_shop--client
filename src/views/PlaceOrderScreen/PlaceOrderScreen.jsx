@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { createOrder } from "../../app/actions/orderActions";
 import CheckoutSteps from "../../components/CheckoutSteps/CheckoutSteps";
+import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
 
 const PlaceOrderScreen = () => {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const cart = useSelector(state => state.cart);
 	const { shippingAddress, paymentMethod, cartItems } = cart;
+
+	const { order, loading, success, error } = useSelector(state => state.order);
 
 	const addDecimals = num => (Math.round(num * 100) / 100).toFixed(2);
 
@@ -20,7 +26,25 @@ const PlaceOrderScreen = () => {
 		Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)
 	);
 
-	const placeOrderHandler = () => {};
+	useEffect(() => {
+		if (success) {
+			navigate(`/order/${order._id}`);
+		}
+	}, [success, order, navigate]);
+
+	const placeOrderHandler = () => {
+		dispatch(
+			createOrder({
+				orderItems: cartItems,
+				shippingAddress,
+				paymentMethod,
+				itemsPrice: cart.itemsPrice,
+				taxPrice: cart.taxPrice,
+				shippingPrice: cart.shippingPrice,
+				totalPrice: cart.totalPrice,
+			})
+		);
+	};
 
 	return (
 		<>
@@ -109,11 +133,18 @@ const PlaceOrderScreen = () => {
 							<ListGroup.Item>
 								<Button
 									type="button"
-									className="btn-block"
+									className="btn-block col-12"
 									onClick={placeOrderHandler}
 								>
 									Place Order
 								</Button>
+							</ListGroup.Item>
+							<ListGroup.Item>
+								{loading ? (
+									<Loader />
+								) : error ? (
+									<Message variant="danger">{error}</Message>
+								) : null}
 							</ListGroup.Item>
 						</ListGroup>
 					</Card>

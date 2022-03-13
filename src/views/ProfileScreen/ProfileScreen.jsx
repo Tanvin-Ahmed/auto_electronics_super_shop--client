@@ -94,7 +94,7 @@ const ProfileScreen = () => {
 						/>
 					</FormGroup>
 
-					<Button type="submit" variant="primary" className="my-3">
+					<Button type="submit" variant="primary" className="my-3 col-12">
 						Update
 					</Button>
 				</Form>
