@@ -1,6 +1,9 @@
+import { render } from "@testing-library/react";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Button, Col, Form, FormGroup, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
+import { getMyOrders } from "../../app/actions/orderActions";
 import {
 	getUserDetails,
 	updateUserProfile,
@@ -11,6 +14,11 @@ import Message from "../../components/Message/Message";
 const ProfileScreen = () => {
 	const dispatch = useDispatch();
 	const { loading, error, user } = useSelector(state => state.userDetails);
+	const {
+		loading: myOrderLoading,
+		error: myOrderError,
+		myOrders,
+	} = useSelector(state => state.myOrderList);
 	const {
 		success,
 		loading: updateLoader,
@@ -25,6 +33,7 @@ const ProfileScreen = () => {
 	useEffect(() => {
 		if (!user.name) {
 			dispatch(getUserDetails());
+			dispatch(getMyOrders());
 		} else {
 			setEmail(user.email);
 			setName(user.name);
@@ -111,6 +120,60 @@ const ProfileScreen = () => {
 			</Col>
 			<Col md={9}>
 				<h2>My Orders</h2>
+				{myOrderLoading ? (
+					<Loader />
+				) : myOrderError ? (
+					<Message>{myOrderError}</Message>
+				) : (
+					<Table
+						striped
+						hover
+						bordered
+						responsive
+						className="table-sm text-center"
+					>
+						<thead>
+							<tr>
+								<td>ID</td>
+								<td>DATE</td>
+								<td>TOTAL</td>
+								<td>PAID</td>
+								<td>DELIVERED</td>
+								<td></td>
+							</tr>
+						</thead>
+						<tbody>
+							{myOrders.map(order => (
+								<tr key={order._id}>
+									<td>{order._id}</td>
+									<td>{new Date(order.createdAt).toLocaleDateString()}</td>
+									<td>{order.totalPrice}</td>
+									<td>
+										{order.isPaid ? (
+											new Date(order.paidAt).toLocaleDateString()
+										) : (
+											<i className="fas fa-times" style={{ color: "red" }} />
+										)}
+									</td>
+									<td>
+										{order.isDelivered ? (
+											new Date(order.deliveredAt).toLocaleDateString()
+										) : (
+											<i className="fas fa-times" style={{ color: "red" }} />
+										)}
+									</td>
+									<td>
+										<LinkContainer to={`/order/${order._id}`}>
+											<Button type="button" variant="light" className="btn-sm">
+												Details
+											</Button>
+										</LinkContainer>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</Table>
+				)}
 			</Col>
 		</Row>
 	);

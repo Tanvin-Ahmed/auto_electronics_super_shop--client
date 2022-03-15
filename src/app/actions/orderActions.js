@@ -10,6 +10,9 @@ import {
 	ORDER_PAY_SUCCESS,
 	ORDER_PAY_FAIL,
 	ORDER_PAY_RESET,
+	MY_ORDER_LIST_REQUEST,
+	MY_ORDER_LIST_SUCCESS,
+	MY_ORDER_LIST_FAIL,
 } from "../types";
 
 const rootUrl = "http://localhost:5000";
@@ -120,4 +123,25 @@ export const payOrder =
 
 export const resetOrderPay = () => dispatch => {
 	dispatch({ type: ORDER_PAY_RESET });
+};
+
+export const getMyOrders = () => async (dispatch, getState) => {
+	try {
+		dispatch({ type: MY_ORDER_LIST_REQUEST });
+		const {
+			userLogin: {
+				userInfo: { token },
+			},
+		} = getState();
+
+		const config = { headers: { Authorization: `Bearer ${token}` } };
+
+		const { data } = await axios.get(`${rootUrl}/order/get-my-orders`, config);
+		dispatch({ type: MY_ORDER_LIST_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: MY_ORDER_LIST_FAIL,
+			payload: error.response ? error.response.data.message : error.message,
+		});
+	}
 };

@@ -16,6 +16,10 @@ import { useDispatch } from "react-redux";
 import PaymentScreen from "./views/PaymentScreen/PaymentScreen";
 import PlaceOrderScreen from "./views/PlaceOrderScreen/PlaceOrderScreen";
 import OrderScreen from "./views/OrderScreen/OrderScreen";
+import UserListScreen from "./views/UserListScreen/UserListScreen";
+import PageNotFoundScreen from "./views/PageNotFoundScreen/PageNotFoundScreen";
+import UserEditScreen from "./views/UserEditScreen/UserEditScreen";
+import ProductListScreen from "./views/ProductListScreen/ProductListScreen";
 
 function App() {
 	const dispatch = useDispatch();
@@ -71,10 +75,35 @@ function App() {
 									</PrivateRoute>
 								}
 							/>
+							<Route
+								path="/admin/user-list"
+								element={
+									<PrivateRoute>
+										<UserListScreen />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/admin/user/:id/edit"
+								element={
+									<PrivateRoute>
+										<UserEditScreen />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/admin/product-list"
+								element={
+									<PrivateRoute>
+										<ProductListScreen />
+									</PrivateRoute>
+								}
+							/>
 							<Route path="/" element={<HomeScreen />} />
 							<Route path="/product/:id" element={<ProductScreen />} />
 							<Route path="/cart/:id" element={<CartScreen />} />
 							<Route path="/cart" element={<CartScreen />} />
+							<Route path="*" element={<PageNotFoundScreen />} />
 						</Routes>
 					</Container>
 				</main>
