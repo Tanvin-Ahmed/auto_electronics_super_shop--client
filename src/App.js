@@ -20,6 +20,7 @@ import UserListScreen from "./views/UserListScreen/UserListScreen";
 import PageNotFoundScreen from "./views/PageNotFoundScreen/PageNotFoundScreen";
 import UserEditScreen from "./views/UserEditScreen/UserEditScreen";
 import ProductListScreen from "./views/ProductListScreen/ProductListScreen";
+import OrderListScreen from "./views/OrderListScreen/OrderListScreen";
 
 function App() {
 	const dispatch = useDispatch();
@@ -96,6 +97,14 @@ function App() {
 								element={
 									<PrivateRoute>
 										<ProductListScreen />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/admin/order-list"
+								element={
+									<PrivateRoute>
+										<OrderListScreen />
 									</PrivateRoute>
 								}
 							/>

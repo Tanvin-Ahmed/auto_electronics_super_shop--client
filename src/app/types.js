@@ -17,6 +17,13 @@ export const PRODUCT_DELETE_FAIL = "product delete fail";
 export const PRODUCT_UPDATE_REQUEST = "product update request";
 export const PRODUCT_UPDATE_SUCCESS = "product update success";
 export const PRODUCT_UPDATE_FAIL = "product update fail";
+export const PRODUCT_UPDATE_RESET = "product update reset";
+
+//* product create admin
+export const PRODUCT_CREATE_REQUEST = "product create request";
+export const PRODUCT_CREATE_SUCCESS = "product create success";
+export const PRODUCT_CREATE_FAIL = "product create fail";
+export const PRODUCT_CREATE_RESET = "product create reset";
 
 //* cart action type
 export const CART_ADD_ITEM = "cart add item";
@@ -85,3 +92,14 @@ export const MY_ORDER_LIST_REQUEST = "my order list request";
 export const MY_ORDER_LIST_SUCCESS = "my order list success";
 export const MY_ORDER_LIST_FAIL = "my order list fail";
 export const MY_ORDER_LIST_RESET = "my order list reset";
+
+//* order list for admin
+export const ADMIN_ORDER_LIST_REQUEST = "admin order list request";
+export const ADMIN_ORDER_LIST_SUCCESS = "admin order list success";
+export const ADMIN_ORDER_LIST_FAIL = "admin order list fail";
+
+//* order delivered for admin
+export const ADMIN_ORDER_DELIVERED_REQUEST = "admin order delivered request";
+export const ADMIN_ORDER_DELIVERED_SUCCESS = "admin order delivered success";
+export const ADMIN_ORDER_DELIVERED_FAIL = "admin order delivered fail";
+export const ADMIN_ORDER_DELIVERED_RESET = "admin order delivered reset";

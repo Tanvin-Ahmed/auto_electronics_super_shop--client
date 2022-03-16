@@ -13,6 +13,13 @@ import {
 	MY_ORDER_LIST_REQUEST,
 	MY_ORDER_LIST_SUCCESS,
 	MY_ORDER_LIST_FAIL,
+	ADMIN_ORDER_LIST_REQUEST,
+	ADMIN_ORDER_LIST_FAIL,
+	ADMIN_ORDER_LIST_SUCCESS,
+	ADMIN_ORDER_DELIVERED_REQUEST,
+	ADMIN_ORDER_DELIVERED_SUCCESS,
+	ADMIN_ORDER_DELIVERED_FAIL,
+	ADMIN_ORDER_DELIVERED_RESET,
 } from "../types";
 
 const rootUrl = "http://localhost:5000";
@@ -121,6 +128,45 @@ export const payOrder =
 		}
 	};
 
+export const deliverOrder = id => async (dispatch, getState) => {
+	try {
+		dispatch({ type: ADMIN_ORDER_DELIVERED_REQUEST });
+
+		const {
+			userLogin: {
+				userInfo: { token },
+			},
+			orderList: { orders },
+		} = getState();
+
+		const config = { headers: { Authorization: `Bearer ${token}` } };
+
+		const { data } = await axios.put(
+			`${rootUrl}/order/admin/update-as-delivered/${id}`,
+			{},
+			config
+		);
+
+		if (orders) {
+			const index = orders.findIndex(order => order._id === data._id);
+			orders.splice(index, 1, data);
+			dispatch({ type: ADMIN_ORDER_LIST_SUCCESS, payload: orders });
+		}
+
+		dispatch({ type: ADMIN_ORDER_DELIVERED_SUCCESS });
+		dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: ADMIN_ORDER_DELIVERED_FAIL,
+			payload: error.response ? error.response.data.message : error.message,
+		});
+	}
+};
+
+export const resetDeliverState = () => dispatch => {
+	dispatch({ type: ADMIN_ORDER_DELIVERED_RESET });
+};
+
 export const resetOrderPay = () => dispatch => {
 	dispatch({ type: ORDER_PAY_RESET });
 };
@@ -141,6 +187,27 @@ export const getMyOrders = () => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: MY_ORDER_LIST_FAIL,
+			payload: error.response ? error.response.data.message : error.message,
+		});
+	}
+};
+
+export const getAllOrder = () => async (dispatch, getState) => {
+	try {
+		dispatch({ type: ADMIN_ORDER_LIST_REQUEST });
+		const {
+			userLogin: {
+				userInfo: { token },
+			},
+		} = getState();
+
+		const config = { headers: { Authorization: `Bearer ${token}` } };
+
+		const { data } = await axios.get(`${rootUrl}/order/admin/get-all`, config);
+		dispatch({ type: ADMIN_ORDER_LIST_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: ADMIN_ORDER_LIST_FAIL,
 			payload: error.response ? error.response.data.message : error.message,
 		});
 	}

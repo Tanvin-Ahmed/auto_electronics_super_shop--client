@@ -1,16 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
 import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
-import { deleteProduct, listProducts } from "../../app/actions/productActions";
+import {
+	deleteProduct,
+	listProducts,
+	resetCreateProductState,
+} from "../../app/actions/productActions";
+import ProductCreateModal from "../../components/ProductCreateModal/ProductCreateModal";
 
 const ProductListScreen = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { loading, products, error } = useSelector(state => state.productList);
+	const {
+		loading: createLoading,
+		createdProduct,
+		error: createError,
+		success: createSuccess,
+	} = useSelector(state => state.productCreate);
 	const { userInfo } = useSelector(state => state.userLogin);
 	const {
 		success,
@@ -18,7 +28,11 @@ const ProductListScreen = () => {
 		error: deleteError,
 	} = useSelector(state => state.productDelete);
 
+	const [modalIsOpen, setIsOpen] = useState(false);
+	const selectedIdRef = useRef("");
+
 	useEffect(() => {
+		dispatch(resetCreateProductState());
 		if (userInfo.email) {
 			if (userInfo.isAdmin) {
 				if (products.length === 0) {
@@ -30,7 +44,17 @@ const ProductListScreen = () => {
 				navigate("/login");
 			}
 		}
-	}, [dispatch, userInfo, navigate, products.length]);
+		if (createSuccess) {
+			navigate(`/admin/product/${createdProduct._id}/edit`);
+		}
+	}, [
+		dispatch,
+		userInfo,
+		navigate,
+		products.length,
+		createSuccess,
+		createdProduct,
+	]);
 
 	const handleDeleteUser = id => {
 		if (window.confirm("Are you sure?")) {
@@ -38,13 +62,21 @@ const ProductListScreen = () => {
 		}
 	};
 
-	const handleCreateProduct = product => {};
+	const handleSelectProduct = id => {
+		selectedIdRef.current = id;
+		setIsOpen(true);
+	};
+
+	const constHandleCreateButton = () => {
+		setIsOpen(true);
+		handleSelectProduct("");
+	};
 
 	return (
 		<>
 			<div className="d-flex justify-content-between align-items-center flex-wrap">
 				<h1>Products</h1>
-				<Button className="my-3" onClick={handleCreateProduct}>
+				<Button className="my-3" onClick={constHandleCreateButton}>
 					<i className="fas fa-plus" />
 					&nbsp;&nbsp; Create Product
 				</Button>
@@ -59,6 +91,12 @@ const ProductListScreen = () => {
 					<i class="far fa-check-circle" style={{ color: "green" }}></i> Product
 					deleted successfully
 				</Message>
+			) : null}
+
+			{createLoading ? (
+				<Loader />
+			) : createError ? (
+				<Message variant="danger">{createError}</Message>
 			) : null}
 
 			{loading ? (
@@ -92,15 +130,14 @@ const ProductListScreen = () => {
 								<td>{product.category}</td>
 								<td>{product.brand}</td>
 								<td>
-									<LinkContainer to={`/admin/product/${product._id}/edit`}>
-										<Button
-											type="button"
-											variant="light"
-											className="btn-sm mx-1"
-										>
-											<i className="fas fa-edit" />
-										</Button>
-									</LinkContainer>
+									<Button
+										onClick={() => handleSelectProduct(product._id)}
+										type="button"
+										variant="light"
+										className="btn-sm mx-1"
+									>
+										<i className="fas fa-edit" />
+									</Button>
 									<Button
 										className="btn-sm mx-1"
 										variant="danger"
@@ -115,6 +152,17 @@ const ProductListScreen = () => {
 					</tbody>
 				</Table>
 			)}
+			{modalIsOpen ? (
+				selectedIdRef.current ? (
+					<ProductCreateModal
+						modalIsOpen={modalIsOpen}
+						setIsOpen={setIsOpen}
+						productId={selectedIdRef.current}
+					/>
+				) : (
+					<ProductCreateModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+				)
+			) : null}
 		</>
 	);
 };

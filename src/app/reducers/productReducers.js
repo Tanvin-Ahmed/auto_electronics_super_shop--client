@@ -11,6 +11,11 @@ import {
 	PRODUCT_UPDATE_REQUEST,
 	PRODUCT_UPDATE_SUCCESS,
 	PRODUCT_UPDATE_FAIL,
+	PRODUCT_CREATE_REQUEST,
+	PRODUCT_CREATE_SUCCESS,
+	PRODUCT_CREATE_FAIL,
+	PRODUCT_CREATE_RESET,
+	PRODUCT_UPDATE_RESET,
 } from "../types";
 
 const productState = {
@@ -28,7 +33,7 @@ export const productReducer = (state = productState, action) => {
 			return { ...state, loading: false, products: action.payload };
 
 		case PRODUCT_LIST_FAIL:
-			return { ...state, error: action.payload };
+			return { ...state, error: action.payload, loading: false };
 
 		default:
 			return state;
@@ -50,7 +55,7 @@ export const productDetailsReducer = (state = productDetailsState, action) => {
 			return { ...state, loading: false, product: action.payload };
 
 		case PRODUCT_DETAILS_FAIL:
-			return { ...state, error: action.payload };
+			return { ...state, error: action.payload, loading: false };
 
 		default:
 			return state;
@@ -72,7 +77,12 @@ export const productDeleteReducer = (state = productDeleteState, action) => {
 			return { ...state, loading: false, success: true };
 
 		case PRODUCT_DELETE_FAIL:
-			return { ...state, error: action.payload, success: false };
+			return {
+				...state,
+				error: action.payload,
+				success: false,
+				loading: false,
+			};
 
 		default:
 			return state;
@@ -94,7 +104,47 @@ export const productUpdateReducer = (state = productUpdateState, action) => {
 			return { ...state, loading: false, success: true };
 
 		case PRODUCT_UPDATE_FAIL:
-			return { ...state, error: action.payload, success: false };
+			return {
+				error: action.payload,
+				success: false,
+				loading: false,
+			};
+
+		case PRODUCT_UPDATE_RESET:
+			return productUpdateState;
+
+		default:
+			return state;
+	}
+};
+
+const productCreateState = {
+	success: false,
+	loading: false,
+	error: "",
+};
+
+export const productCreateReducer = (state = productCreateState, action) => {
+	switch (action.type) {
+		case PRODUCT_CREATE_REQUEST:
+			return { ...state, loading: true, error: "" };
+
+		case PRODUCT_CREATE_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				success: true,
+			};
+
+		case PRODUCT_CREATE_FAIL:
+			return {
+				error: action.payload,
+				success: false,
+				loading: false,
+			};
+
+		case PRODUCT_CREATE_RESET:
+			return productCreateState;
 
 		default:
 			return state;

@@ -1,8 +1,14 @@
 import React, { useEffect } from "react";
-import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getOrderDetails, resetOrderPay } from "../../app/actions/orderActions";
+import { LinkContainer } from "react-router-bootstrap";
+import {
+	deliverOrder,
+	getOrderDetails,
+	resetDeliverState,
+	resetOrderPay,
+} from "../../app/actions/orderActions";
 import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
 import StripeFormScreen from "../StripeFormScreen/StripeFormScreen";
@@ -12,14 +18,27 @@ const OrderScreen = () => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { order, loading, error } = useSelector(state => state.orderDetails);
+	const { userInfo } = useSelector(state => state.userLogin);
 	const { success } = useSelector(state => state.orderPay);
+	const {
+		success: successDeliver,
+		loading: loadingDeliver,
+		error: errorDeliver,
+	} = useSelector(state => state.orderDeliver);
 
 	useEffect(() => {
-		if (!order?._id || success) {
+		if (!order?._id || success || successDeliver) {
 			dispatch(resetOrderPay());
+			dispatch(resetDeliverState());
+		}
+		if (!order._id || order._id !== id) {
 			dispatch(getOrderDetails(id));
 		}
-	}, [dispatch, id, order, success]);
+	}, [dispatch, id, order, success, successDeliver]);
+
+	const handleDeliver = orderId => {
+		dispatch(deliverOrder(orderId));
+	};
 
 	return loading ? (
 		<Loader />
@@ -27,6 +46,9 @@ const OrderScreen = () => {
 		<Message variant="danger">{error}</Message>
 	) : order?.orderItems ? (
 		<>
+			<LinkContainer to="/admin/order-list">
+				<Button className="btn-light">Go back</Button>
+			</LinkContainer>
 			<h1>Order {order._id}</h1>
 			<Row>
 				<Col md={8}>
@@ -137,7 +159,24 @@ const OrderScreen = () => {
 									</ListGroup.Item>
 								)
 							) : null}
+							{userInfo.isAdmin && order.isPaid && !order.isDelivered ? (
+								<ListGroup.Item>
+									<Button
+										type="button"
+										variant="primary"
+										onClick={() => handleDeliver(order._id)}
+										className="col-12"
+									>
+										Make As Delivered
+									</Button>
+								</ListGroup.Item>
+							) : null}
 						</ListGroup>
+						{loadingDeliver ? (
+							<Loader />
+						) : errorDeliver ? (
+							<Message variant="danger">{errorDeliver}</Message>
+						) : null}
 					</Card>
 				</Col>
 			</Row>

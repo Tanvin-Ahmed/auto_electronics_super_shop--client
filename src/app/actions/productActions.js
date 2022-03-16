@@ -12,6 +12,11 @@ import {
 	PRODUCT_UPDATE_REQUEST,
 	PRODUCT_UPDATE_SUCCESS,
 	PRODUCT_UPDATE_FAIL,
+	PRODUCT_CREATE_REQUEST,
+	PRODUCT_CREATE_SUCCESS,
+	PRODUCT_CREATE_FAIL,
+	PRODUCT_CREATE_RESET,
+	PRODUCT_UPDATE_RESET,
 } from "../types";
 
 const api = "http://localhost:5000";
@@ -73,35 +78,96 @@ export const deleteProduct = id => async (dispatch, getState) => {
 	}
 };
 
-export const updateProduct = productInfo => async (dispatch, getState) => {
-	try {
-		dispatch({ type: PRODUCT_UPDATE_REQUEST });
+export const updateProduct =
+	(productInfo, closeModal) => async (dispatch, getState) => {
+		try {
+			resetCreateProductState();
+			resetUpdateProductState();
+			dispatch({ type: PRODUCT_UPDATE_REQUEST });
 
-		const {
-			userLogin: {
-				userInfo: { token },
-			},
-			productList: { products },
-		} = getState();
+			const {
+				userLogin: {
+					userInfo: { token },
+				},
+				productList: { products },
+			} = getState();
 
-		const config = { headers: { Authorization: `Bearer ${token}` } };
+			const config = { headers: { Authorization: `Bearer ${token}` } };
 
-		const { data } = await axios.put(
-			`${api}/product/admin/update/${productInfo._id}`,
-			productInfo,
-			config
-		);
+			const { data } = await axios.put(
+				`${api}/product/admin/update/${productInfo._id}`,
+				productInfo,
+				config
+			);
 
-		const findIndex = products.findIndex(u => u._id === data._id);
-		products.splice(findIndex, 1, data);
+			const findIndex = products.findIndex(p => p._id === data._id);
+			products.splice(findIndex, 1, data);
 
-		dispatch({ type: PRODUCT_LIST_SUCCESS, payload: products });
-		dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
-		dispatch({ type: PRODUCT_UPDATE_SUCCESS });
-	} catch (error) {
-		dispatch({
-			type: PRODUCT_UPDATE_FAIL,
-			payload: error.response ? error.response.data.message : error.message,
-		});
-	}
+			dispatch({ type: PRODUCT_UPDATE_SUCCESS });
+			dispatch({ type: PRODUCT_LIST_SUCCESS, payload: products });
+			dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
+			setTimeout(() => {
+				closeModal();
+				resetCreateProductState();
+				resetUpdateProductState();
+			}, 1500);
+		} catch (error) {
+			dispatch({
+				type: PRODUCT_UPDATE_FAIL,
+				payload: error.response ? error.response.data.message : error.message,
+			});
+		}
+	};
+
+export const createProduct =
+	(productInfo, base64, closeModal) => async (dispatch, getState) => {
+		try {
+			resetCreateProductState();
+			resetUpdateProductState();
+			dispatch({ type: PRODUCT_CREATE_REQUEST });
+
+			const {
+				userLogin: { userInfo },
+				productList: { products },
+			} = getState();
+
+			const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
+
+			const { data: imageData } = await axios.post(
+				`${api}/product/admin/upload-image`,
+				{ data: base64 },
+				config
+			);
+
+			productInfo.image = imageData.secure_url;
+
+			const { data } = await axios.post(
+				`${api}/product/admin/add`,
+				{ ...productInfo, admin: userInfo._id },
+				config
+			);
+			dispatch({ type: PRODUCT_CREATE_SUCCESS });
+
+			const newProductList = [...products, data];
+
+			dispatch({ type: PRODUCT_LIST_SUCCESS, payload: newProductList });
+			setTimeout(() => {
+				closeModal();
+				resetCreateProductState();
+				resetUpdateProductState();
+			}, 1500);
+		} catch (error) {
+			dispatch({
+				type: PRODUCT_CREATE_FAIL,
+				payload: error.response ? error.response.data.message : error.message,
+			});
+		}
+	};
+
+export const resetCreateProductState = () => dispatch => {
+	dispatch({ type: PRODUCT_CREATE_RESET });
+};
+
+export const resetUpdateProductState = () => dispatch => {
+	dispatch({ type: PRODUCT_UPDATE_RESET });
 };
