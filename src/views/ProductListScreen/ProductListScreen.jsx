@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Table } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
@@ -10,11 +10,15 @@ import {
 	resetCreateProductState,
 } from "../../app/actions/productActions";
 import ProductCreateModal from "../../components/ProductCreateModal/ProductCreateModal";
+import Paginate from "../../components/Paginate/Paginate";
 
 const ProductListScreen = () => {
+	const { pageNumber } = useParams();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { loading, products, error } = useSelector(state => state.productList);
+	const { loading, products, error, pages, page } = useSelector(
+		state => state.productList
+	);
 	const {
 		loading: createLoading,
 		createdProduct,
@@ -35,9 +39,7 @@ const ProductListScreen = () => {
 		dispatch(resetCreateProductState());
 		if (userInfo.email) {
 			if (userInfo.isAdmin) {
-				if (products.length === 0) {
-					dispatch(listProducts());
-				}
+				dispatch(listProducts("", pageNumber));
 			} else if (!userInfo.isAdmin) {
 				navigate("/page not found");
 			} else {
@@ -54,6 +56,7 @@ const ProductListScreen = () => {
 		products.length,
 		createSuccess,
 		createdProduct,
+		pageNumber,
 	]);
 
 	const handleDeleteUser = id => {
@@ -104,53 +107,56 @@ const ProductListScreen = () => {
 			) : error ? (
 				<Message variant="danger">{error}</Message>
 			) : (
-				<Table
-					hover
-					striped
-					bordered
-					responsive
-					className="table-sm text-center"
-				>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>NAME</th>
-							<th>PRICE</th>
-							<th>CATEGORY</th>
-							<th>BRAND</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{products.map(product => (
-							<tr key={product._id}>
-								<td>{product._id}</td>
-								<td>{product.name}</td>
-								<td>$ {product.price}</td>
-								<td>{product.category}</td>
-								<td>{product.brand}</td>
-								<td>
-									<Button
-										onClick={() => handleSelectProduct(product._id)}
-										type="button"
-										variant="light"
-										className="btn-sm mx-1"
-									>
-										<i className="fas fa-edit" />
-									</Button>
-									<Button
-										className="btn-sm mx-1"
-										variant="danger"
-										type="button"
-										onClick={() => handleDeleteUser(product._id)}
-									>
-										<i className="fas fa-trash" />
-									</Button>
-								</td>
+				<>
+					<Table
+						hover
+						striped
+						bordered
+						responsive
+						className="table-sm text-center"
+					>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>NAME</th>
+								<th>PRICE</th>
+								<th>CATEGORY</th>
+								<th>BRAND</th>
+								<th></th>
 							</tr>
-						))}
-					</tbody>
-				</Table>
+						</thead>
+						<tbody>
+							{products.map(product => (
+								<tr key={product._id}>
+									<td>{product._id}</td>
+									<td>{product.name}</td>
+									<td>$ {product.price}</td>
+									<td>{product.category}</td>
+									<td>{product.brand}</td>
+									<td>
+										<Button
+											onClick={() => handleSelectProduct(product._id)}
+											type="button"
+											variant="light"
+											className="btn-sm mx-1"
+										>
+											<i className="fas fa-edit" />
+										</Button>
+										<Button
+											className="btn-sm mx-1"
+											variant="danger"
+											type="button"
+											onClick={() => handleDeleteUser(product._id)}
+										>
+											<i className="fas fa-trash" />
+										</Button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</Table>
+					<Paginate pages={pages} page={page} isAdmin={true} />
+				</>
 			)}
 			{modalIsOpen ? (
 				selectedIdRef.current ? (

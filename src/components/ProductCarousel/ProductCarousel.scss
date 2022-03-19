@@ -1,0 +1,20 @@
+.carousel {
+	background-color: rgb(123, 125, 149);
+	.carousel-item-next,
+	.carousel-item-prev,
+	.carousel-item.active {
+		display: flex;
+	}
+
+	.carousel-caption {
+		position: absolute;
+		bottom: 0;
+
+		h2 {
+			color: rgb(170, 170, 170);
+		}
+	}
+	a {
+		margin: 0 auto;
+	}
+}

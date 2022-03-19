@@ -10,7 +10,7 @@ const PaymentScreen = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { shippingAddress } = useSelector(state => state.cart);
-	const [paymentMethod, setPaymentMethod] = useState("PayPal");
+	const [paymentMethod, setPaymentMethod] = useState("Stripe");
 
 	if (!shippingAddress) {
 		navigate("/shipping");

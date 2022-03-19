@@ -92,8 +92,16 @@ function App() {
 									</PrivateRoute>
 								}
 							/>
-							<Route
+							{/* <Route
 								path="/admin/product-list"
+								element={
+									<PrivateRoute>
+										<ProductListScreen />
+									</PrivateRoute>
+								}
+							/> */}
+							<Route
+								path="/admin/product-list/:pageNumber"
 								element={
 									<PrivateRoute>
 										<ProductListScreen />
@@ -109,6 +117,12 @@ function App() {
 								}
 							/>
 							<Route path="/" element={<HomeScreen />} />
+							<Route path="/page/:pageNumber" element={<HomeScreen />} />
+							<Route
+								path="/search/:keyword/page/:pageNumber"
+								element={<HomeScreen />}
+							/>
+							<Route path="/search/:keyword" element={<HomeScreen />} />
 							<Route path="/product/:id" element={<ProductScreen />} />
 							<Route path="/cart/:id" element={<CartScreen />} />
 							<Route path="/cart" element={<CartScreen />} />

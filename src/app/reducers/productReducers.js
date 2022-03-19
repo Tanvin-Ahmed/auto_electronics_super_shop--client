@@ -16,10 +16,19 @@ import {
 	PRODUCT_CREATE_FAIL,
 	PRODUCT_CREATE_RESET,
 	PRODUCT_UPDATE_RESET,
+	PRODUCT_CREATE_REVIEW_REQUEST,
+	PRODUCT_CREATE_REVIEW_SUCCESS,
+	PRODUCT_CREATE_REVIEW_FAIL,
+	PRODUCT_CREATE_REVIEW_RESET,
+	TOP_RATED_PRODUCT_LIST_REQUEST,
+	TOP_RATED_PRODUCT_LIST_SUCCESS,
+	TOP_RATED_PRODUCT_LIST_FAIL,
 } from "../types";
 
 const productState = {
 	products: [],
+	pages: "",
+	page: "",
 	loading: false,
 	error: "",
 };
@@ -30,9 +39,44 @@ export const productReducer = (state = productState, action) => {
 			return { ...state, loading: true, error: "" };
 
 		case PRODUCT_LIST_SUCCESS:
-			return { ...state, loading: false, products: action.payload };
+			return {
+				...state,
+				loading: false,
+				products: action.payload.products,
+				pages: action.payload.pages,
+				page: action.payload.page,
+			};
 
 		case PRODUCT_LIST_FAIL:
+			return { ...state, error: action.payload, loading: false };
+
+		default:
+			return state;
+	}
+};
+
+const topRatedProductState = {
+	products: [],
+	loading: false,
+	error: "",
+};
+
+export const topRatedProductReducer = (
+	state = topRatedProductState,
+	action
+) => {
+	switch (action.type) {
+		case TOP_RATED_PRODUCT_LIST_REQUEST:
+			return { ...state, loading: true, error: "" };
+
+		case TOP_RATED_PRODUCT_LIST_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				products: action.payload,
+			};
+
+		case TOP_RATED_PRODUCT_LIST_FAIL:
 			return { ...state, error: action.payload, loading: false };
 
 		default:
@@ -145,6 +189,42 @@ export const productCreateReducer = (state = productCreateState, action) => {
 
 		case PRODUCT_CREATE_RESET:
 			return productCreateState;
+
+		default:
+			return state;
+	}
+};
+
+const productCreateReviewState = {
+	success: false,
+	loading: false,
+	error: "",
+};
+
+export const productCreateReviewReducer = (
+	state = productCreateReviewState,
+	action
+) => {
+	switch (action.type) {
+		case PRODUCT_CREATE_REVIEW_REQUEST:
+			return { ...state, loading: true, error: "" };
+
+		case PRODUCT_CREATE_REVIEW_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				success: true,
+			};
+
+		case PRODUCT_CREATE_REVIEW_FAIL:
+			return {
+				error: action.payload,
+				success: false,
+				loading: false,
+			};
+
+		case PRODUCT_CREATE_REVIEW_RESET:
+			return productCreateReviewState;
 
 		default:
 			return state;

@@ -5,6 +5,7 @@ import "./Header.scss";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/actions/userActions";
+import SearchBox from "../SearchBox/SearchBox";
 
 const Header = () => {
 	const dispatch = useDispatch();
@@ -65,6 +66,7 @@ const Header = () => {
 								</NavDropdown>
 							) : null}
 						</Nav>
+						<SearchBox />
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>

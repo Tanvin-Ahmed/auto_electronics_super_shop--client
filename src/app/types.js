@@ -3,10 +3,21 @@ export const PRODUCT_LIST_REQUEST = "product list request";
 export const PRODUCT_LIST_SUCCESS = "product list success";
 export const PRODUCT_LIST_FAIL = "product list fail";
 
+//* top rated product list
+export const TOP_RATED_PRODUCT_LIST_REQUEST = "top rated product list request";
+export const TOP_RATED_PRODUCT_LIST_SUCCESS = "top rated product list success";
+export const TOP_RATED_PRODUCT_LIST_FAIL = "top rated product list fail";
+
 //* product details
 export const PRODUCT_DETAILS_REQUEST = "product details request";
 export const PRODUCT_DETAILS_SUCCESS = "product details success";
 export const PRODUCT_DETAILS_FAIL = "product details fail";
+
+//* add review
+export const PRODUCT_CREATE_REVIEW_REQUEST = "product create review request";
+export const PRODUCT_CREATE_REVIEW_SUCCESS = "product create review success";
+export const PRODUCT_CREATE_REVIEW_FAIL = "product create review fail";
+export const PRODUCT_CREATE_REVIEW_RESET = "product create review reset";
 
 //* product delete admin
 export const PRODUCT_DELETE_REQUEST = "product delete request";
@@ -30,6 +41,7 @@ export const CART_ADD_ITEM = "cart add item";
 export const CART_REMOVE_ITEM = "cart remove item";
 export const CART_SAVE_SHIPPING_ADDRESS = "cart save shipping address";
 export const CART_SAVE_PAYMENT_METHOD = "cart save payment method";
+export const CART_SAVE_RESET = "cart save reset";
 
 //* login type
 export const USER_LOGIN_REQUEST = "user login request";

@@ -17,20 +17,46 @@ import {
 	PRODUCT_CREATE_FAIL,
 	PRODUCT_CREATE_RESET,
 	PRODUCT_UPDATE_RESET,
+	PRODUCT_CREATE_REVIEW_REQUEST,
+	PRODUCT_CREATE_REVIEW_SUCCESS,
+	PRODUCT_CREATE_REVIEW_FAIL,
+	PRODUCT_CREATE_REVIEW_RESET,
+	TOP_RATED_PRODUCT_LIST_REQUEST,
+	TOP_RATED_PRODUCT_LIST_SUCCESS,
+	TOP_RATED_PRODUCT_LIST_FAIL,
 } from "../types";
 
 const api = "http://localhost:5000";
 
-export const listProducts = () => async dispatch => {
-	dispatch({ type: PRODUCT_LIST_REQUEST });
+export const listProducts =
+	(keyword = "", pageNumber = 1) =>
+	async dispatch => {
+		dispatch({ type: PRODUCT_LIST_REQUEST });
+
+		try {
+			const { data } = await axios.get(
+				`${api}/product/get-many/${20}/${pageNumber}?keyword=${keyword}`
+			);
+
+			dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+		} catch (error) {
+			dispatch({
+				type: PRODUCT_LIST_FAIL,
+				payload: error?.response?.data?.message || error.message,
+			});
+		}
+	};
+
+export const listTopProducts = () => async dispatch => {
+	dispatch({ type: TOP_RATED_PRODUCT_LIST_REQUEST });
 
 	try {
-		const { data } = await axios.get(`${api}/product/get-many/${10}/${1}`);
+		const { data } = await axios.get(`${api}/product/get-top-rated`);
 
-		dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
+		dispatch({ type: TOP_RATED_PRODUCT_LIST_SUCCESS, payload: data });
 	} catch (error) {
 		dispatch({
-			type: PRODUCT_LIST_FAIL,
+			type: TOP_RATED_PRODUCT_LIST_FAIL,
 			payload: error?.response?.data?.message || error.message,
 		});
 	}
@@ -163,6 +189,48 @@ export const createProduct =
 			});
 		}
 	};
+
+export const createProductReview =
+	(reviewInfo, productId) => async (dispatch, getState) => {
+		try {
+			resetUpdateProductState();
+			dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST });
+
+			const {
+				userLogin: {
+					userInfo: { token },
+				},
+				productList: { products },
+			} = getState();
+
+			const config = { headers: { Authorization: `Bearer ${token}` } };
+
+			const { data } = await axios.put(
+				`${api}/product/add-review/${productId}`,
+				reviewInfo,
+				config
+			);
+
+			const findIndex = products.findIndex(p => p._id === data._id);
+			products.splice(findIndex, 1, data);
+
+			dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
+			dispatch({ type: PRODUCT_LIST_SUCCESS, payload: products });
+			dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
+			setTimeout(() => {
+				resetUpdateProductState();
+			}, 1500);
+		} catch (error) {
+			dispatch({
+				type: PRODUCT_CREATE_REVIEW_FAIL,
+				payload: error.response ? error.response.data.message : error.message,
+			});
+		}
+	};
+
+export const resetCreateReviewState = () => dispatch => {
+	dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+};
 
 export const resetCreateProductState = () => dispatch => {
 	dispatch({ type: PRODUCT_CREATE_RESET });

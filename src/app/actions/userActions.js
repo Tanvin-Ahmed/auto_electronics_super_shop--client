@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+	CART_SAVE_RESET,
 	MY_ORDER_LIST_RESET,
 	UPDATE_USER_PROFILE_FAIL,
 	UPDATE_USER_PROFILE_REQUEST,
@@ -214,6 +215,7 @@ export const logout = () => dispatch => {
 	dispatch({ type: USER_DETAILS_RESET });
 	dispatch({ type: MY_ORDER_LIST_RESET });
 	dispatch({ type: USER_LIST_RESET });
+	dispatch({ type: CART_SAVE_RESET });
 };
 
 export const refreshToken = () => async (dispatch, getState) => {
