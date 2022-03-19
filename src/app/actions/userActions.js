@@ -117,28 +117,34 @@ export const updateUserProfile = info => async (dispatch, getState) => {
 	}
 };
 
-export const getUserList = () => async (dispatch, getState) => {
-	try {
-		dispatch({ type: USER_LIST_REQUEST });
+// * admin
+export const getUserList =
+	(pageNumber = 1) =>
+	async (dispatch, getState) => {
+		try {
+			dispatch({ type: USER_LIST_REQUEST });
 
-		const {
-			userLogin: {
-				userInfo: { token },
-			},
-		} = getState();
+			const {
+				userLogin: {
+					userInfo: { token },
+				},
+			} = getState();
 
-		const config = { headers: { Authorization: `Bearer ${token}` } };
+			const config = { headers: { Authorization: `Bearer ${token}` } };
 
-		const { data } = await axios.get(`${api}/users/admin/all`, config);
+			const { data } = await axios.get(
+				`${api}/users/admin/all?page=${pageNumber}&limit=${20}`,
+				config
+			);
 
-		dispatch({ type: USER_LIST_SUCCESS, payload: data });
-	} catch (error) {
-		dispatch({
-			type: USER_LIST_FAIL,
-			payload: error.response ? error.response.data.message : error.message,
-		});
-	}
-};
+			dispatch({ type: USER_LIST_SUCCESS, payload: data });
+		} catch (error) {
+			dispatch({
+				type: USER_LIST_FAIL,
+				payload: error.response ? error.response.data.message : error.message,
+			});
+		}
+	};
 
 export const deleteUser = id => async (dispatch, getState) => {
 	try {

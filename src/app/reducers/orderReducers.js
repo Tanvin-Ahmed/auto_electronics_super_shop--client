@@ -178,6 +178,8 @@ const orderListInitial = {
 	orders: [],
 	error: "",
 	loading: false,
+	pages: 1,
+	page: 1
 };
 
 export const orderListReducer = (state = orderListInitial, action) => {
@@ -186,7 +188,7 @@ export const orderListReducer = (state = orderListInitial, action) => {
 			return { loading: true, error: "" };
 
 		case ADMIN_ORDER_LIST_SUCCESS:
-			return { ...state, loading: false, orders: action.payload };
+			return { ...state, loading: false, orders: action.payload.orders, page: action.payload.page, pages: action.payload.pages };
 
 		case ADMIN_ORDER_LIST_FAIL:
 			return {

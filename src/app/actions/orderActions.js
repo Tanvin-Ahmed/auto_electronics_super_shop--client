@@ -192,23 +192,28 @@ export const getMyOrders = () => async (dispatch, getState) => {
 	}
 };
 
-export const getAllOrder = () => async (dispatch, getState) => {
-	try {
-		dispatch({ type: ADMIN_ORDER_LIST_REQUEST });
-		const {
-			userLogin: {
-				userInfo: { token },
-			},
-		} = getState();
+export const getAllOrder =
+	(pageNumber = 1) =>
+	async (dispatch, getState) => {
+		try {
+			dispatch({ type: ADMIN_ORDER_LIST_REQUEST });
+			const {
+				userLogin: {
+					userInfo: { token },
+				},
+			} = getState();
 
-		const config = { headers: { Authorization: `Bearer ${token}` } };
+			const config = { headers: { Authorization: `Bearer ${token}` } };
 
-		const { data } = await axios.get(`${rootUrl}/order/admin/get-all`, config);
-		dispatch({ type: ADMIN_ORDER_LIST_SUCCESS, payload: data });
-	} catch (error) {
-		dispatch({
-			type: ADMIN_ORDER_LIST_FAIL,
-			payload: error.response ? error.response.data.message : error.message,
-		});
-	}
-};
+			const { data } = await axios.get(
+				`${rootUrl}/order/admin/get-all?page=${pageNumber}&limit=${20}`,
+				config
+			);
+			dispatch({ type: ADMIN_ORDER_LIST_SUCCESS, payload: data });
+		} catch (error) {
+			dispatch({
+				type: ADMIN_ORDER_LIST_FAIL,
+				payload: error.response ? error.response.data.message : error.message,
+			});
+		}
+	};

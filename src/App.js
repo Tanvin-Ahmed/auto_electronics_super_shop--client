@@ -77,7 +77,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/admin/user-list"
+								path="/admin/user-list/:pageNumber"
 								element={
 									<PrivateRoute>
 										<UserListScreen />
@@ -92,14 +92,6 @@ function App() {
 									</PrivateRoute>
 								}
 							/>
-							{/* <Route
-								path="/admin/product-list"
-								element={
-									<PrivateRoute>
-										<ProductListScreen />
-									</PrivateRoute>
-								}
-							/> */}
 							<Route
 								path="/admin/product-list/:pageNumber"
 								element={
@@ -109,7 +101,7 @@ function App() {
 								}
 							/>
 							<Route
-								path="/admin/order-list"
+								path="/admin/order-list/:pageNumber"
 								element={
 									<PrivateRoute>
 										<OrderListScreen />

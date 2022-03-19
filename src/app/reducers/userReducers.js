@@ -139,6 +139,8 @@ const initialStateForUserList = {
 	users: [],
 	loading: false,
 	error: "",
+	pages: 1,
+	page: 1,
 };
 
 export const userListReducer = (state = initialStateForUserList, action) => {
@@ -150,7 +152,9 @@ export const userListReducer = (state = initialStateForUserList, action) => {
 			return {
 				error: "",
 				loading: false,
-				users: action.payload,
+				users: action.payload.users,
+				page: action.payload.page,
+				pages: action.payload.pages,
 			};
 
 		case USER_LIST_FAIL:
