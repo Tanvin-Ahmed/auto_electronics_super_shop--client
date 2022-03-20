@@ -7,6 +7,7 @@ import { deleteUser, getUserList } from "../../app/actions/userActions";
 import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
 import Paginate from "../../components/Paginate/Paginate";
+import Meta from "../../components/Meta/Meta";
 
 const UserListScreen = () => {
 	const { pageNumber } = useParams();
@@ -40,6 +41,7 @@ const UserListScreen = () => {
 
 	return (
 		<>
+			<Meta title="Admin | User list" />
 			<h1>Users</h1>
 			{success ? (
 				<Message variant="success">

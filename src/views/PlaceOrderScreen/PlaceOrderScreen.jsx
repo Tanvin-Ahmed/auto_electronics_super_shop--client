@@ -6,6 +6,7 @@ import { createOrder } from "../../app/actions/orderActions";
 import CheckoutSteps from "../../components/CheckoutSteps/CheckoutSteps";
 import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
+import Meta from "../../components/Meta/Meta";
 
 const PlaceOrderScreen = () => {
 	const navigate = useNavigate();
@@ -48,6 +49,7 @@ const PlaceOrderScreen = () => {
 
 	return (
 		<>
+			<Meta title="Place order" />
 			<CheckoutSteps step1 step2 step3 step4 />
 			<Row>
 				<Col md={8}>

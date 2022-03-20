@@ -11,6 +11,7 @@ import {
 } from "../../app/actions/productActions";
 import ProductCreateModal from "../../components/ProductCreateModal/ProductCreateModal";
 import Paginate from "../../components/Paginate/Paginate";
+import Meta from "../../components/Meta/Meta";
 
 const ProductListScreen = () => {
 	const { pageNumber } = useParams();
@@ -77,6 +78,7 @@ const ProductListScreen = () => {
 
 	return (
 		<>
+			<Meta title="Admin | Product list" />
 			<div className="d-flex justify-content-between align-items-center flex-wrap">
 				<h1>Products</h1>
 				<Button className="my-3" onClick={constHandleCreateButton}>

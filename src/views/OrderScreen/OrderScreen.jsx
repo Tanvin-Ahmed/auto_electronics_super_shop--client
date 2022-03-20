@@ -12,6 +12,7 @@ import {
 import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
 import StripeFormScreen from "../StripeFormScreen/StripeFormScreen";
+import Meta from "../../components/Meta/Meta";
 
 const OrderScreen = () => {
 	const { id } = useParams();
@@ -46,6 +47,7 @@ const OrderScreen = () => {
 		<Message variant="danger">{error}</Message>
 	) : order?.orderItems ? (
 		<>
+			<Meta title="Order details" />
 			<LinkContainer to="/admin/order-list">
 				<Button className="btn-light">Go back</Button>
 			</LinkContainer>

@@ -7,6 +7,7 @@ import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
 import { getAllOrder } from "../../app/actions/orderActions";
 import Paginate from "../../components/Paginate/Paginate";
+import Meta from "../../components/Meta/Meta";
 
 const OrderListScreen = () => {
 	const { pageNumber } = useParams();
@@ -31,6 +32,7 @@ const OrderListScreen = () => {
 
 	return (
 		<>
+			<Meta title="Admin | Order list" />
 			<h1>Orders</h1>
 			{/* {success ? (
 				<Message variant="success">

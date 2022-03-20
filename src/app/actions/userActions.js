@@ -29,7 +29,7 @@ import {
 	USER_UPDATE_SUCCESS,
 } from "../types";
 
-const api = "http://localhost:5000";
+const api = "https://supershop-server.herokuapp.com";
 
 export const login = (info, navigate, from) => async dispatch => {
 	try {

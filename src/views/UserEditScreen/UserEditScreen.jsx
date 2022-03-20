@@ -10,6 +10,7 @@ import {
 	resetUserUpdateStates,
 	updateUser,
 } from "../../app/actions/userActions";
+import Meta from "../../components/Meta/Meta";
 
 const UserEditScreen = () => {
 	const { id } = useParams();
@@ -46,6 +47,7 @@ const UserEditScreen = () => {
 
 	return (
 		<>
+			<Meta title="Admin | Edit user" />
 			<Link to="/admin/user-list" className="btn btn-light my-3">
 				Go Back
 			</Link>

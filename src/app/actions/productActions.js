@@ -26,7 +26,7 @@ import {
 	TOP_RATED_PRODUCT_LIST_FAIL,
 } from "../types";
 
-const api = "http://localhost:5000";
+const api = "https://supershop-server.herokuapp.com";
 
 export const listProducts =
 	(keyword = "", pageNumber = 1) =>

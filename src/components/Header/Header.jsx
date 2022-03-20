@@ -21,7 +21,7 @@ const Header = () => {
 				<Container>
 					<LinkContainer to="/">
 						<Navbar.Brand>
-							<img src={logo} className="brand" alt="" />
+							<img src={logo} className="brand" fluid alt="" />
 						</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle aria-controls="navbarScroll" />
@@ -33,7 +33,9 @@ const Header = () => {
 						>
 							<LinkContainer to="/cart">
 								<Nav.Link>
-									<i className="fas fa-shopping-cart"></i> Cart
+									<div style={{ width: "90px" }}>
+										<i className="fas fa-shopping-cart"></i> Cart
+									</div>
 								</Nav.Link>
 							</LinkContainer>
 							{userInfo?.email ? (

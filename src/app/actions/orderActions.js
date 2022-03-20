@@ -22,7 +22,7 @@ import {
 	ADMIN_ORDER_DELIVERED_RESET,
 } from "../types";
 
-const rootUrl = "http://localhost:5000";
+const rootUrl = "https://supershop-server.herokuapp.com";
 
 export const createOrder = info => async (dispatch, getState) => {
 	try {
