@@ -13,6 +13,7 @@ Admin can add, update and delete products. Also admin can update some informatio
 ## Technology used
 
 - React js
+- Redux
 - React Router
 - React Helmet
 - Stripe (International payment method)
