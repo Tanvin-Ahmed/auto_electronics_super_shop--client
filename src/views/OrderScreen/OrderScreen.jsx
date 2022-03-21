@@ -13,6 +13,8 @@ import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
 import StripeFormScreen from "../StripeFormScreen/StripeFormScreen";
 import Meta from "../../components/Meta/Meta";
+import { logEvent } from "firebase/analytics";
+import { firebaseAnalytics } from "../../firebase/config";
 
 const OrderScreen = () => {
 	const { id } = useParams();
@@ -40,6 +42,11 @@ const OrderScreen = () => {
 	const handleDeliver = orderId => {
 		dispatch(deliverOrder(orderId));
 	};
+
+	// add google analytics
+	useEffect(() => {
+		logEvent(firebaseAnalytics, `Payment page visited`);
+	}, []);
 
 	return loading ? (
 		<Loader />

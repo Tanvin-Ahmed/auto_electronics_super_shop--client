@@ -1,3 +1,4 @@
+import { logEvent } from "firebase/analytics";
 import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -10,6 +11,7 @@ import Meta from "../../components/Meta/Meta";
 import Paginate from "../../components/Paginate/Paginate";
 import Product from "../../components/Product/Product";
 import ProductCarousel from "../../components/ProductCarousel/ProductCarousel";
+import { firebaseAnalytics } from "../../firebase/config";
 
 const HomeScreen = () => {
 	const { keyword, pageNumber } = useParams();
@@ -21,6 +23,11 @@ const HomeScreen = () => {
 	useEffect(() => {
 		dispatch(listProducts(keyword, pageNumber));
 	}, [dispatch, keyword, pageNumber]);
+
+	// add google analytics
+	useEffect(() => {
+		logEvent(firebaseAnalytics, "Home page visited");
+	}, []);
 
 	return (
 		<>

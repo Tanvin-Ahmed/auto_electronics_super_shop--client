@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { logEvent } from "firebase/analytics";
+import React, { useEffect, useState } from "react";
 import { Button, Form, FormGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +7,7 @@ import { saveShippingAddress } from "../../app/actions/cartActions";
 import CheckoutSteps from "../../components/CheckoutSteps/CheckoutSteps";
 import FormContainer from "../../components/FormContainer/FormContainer";
 import Meta from "../../components/Meta/Meta";
+import { firebaseAnalytics } from "../../firebase/config";
 
 const ShippingScreen = () => {
 	const navigate = useNavigate();
@@ -15,6 +17,11 @@ const ShippingScreen = () => {
 	const [city, setCity] = useState(shippingAddress.city);
 	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
 	const [country, setCountry] = useState(shippingAddress.country);
+
+	// add google analytics
+	useEffect(() => {
+		logEvent(firebaseAnalytics, `Shipping page visited`);
+	}, []);
 
 	const submitHandler = e => {
 		e.preventDefault();

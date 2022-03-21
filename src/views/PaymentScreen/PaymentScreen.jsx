@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { logEvent } from "firebase/analytics";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, FormGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +7,7 @@ import { savePaymentMethod } from "../../app/actions/cartActions";
 import CheckoutSteps from "../../components/CheckoutSteps/CheckoutSteps";
 import FormContainer from "../../components/FormContainer/FormContainer";
 import Meta from "../../components/Meta/Meta";
+import { firebaseAnalytics } from "../../firebase/config";
 
 const PaymentScreen = () => {
 	const navigate = useNavigate();
@@ -16,6 +18,11 @@ const PaymentScreen = () => {
 	if (!shippingAddress) {
 		navigate("/shipping");
 	}
+
+	// add google analytics
+	useEffect(() => {
+		logEvent(firebaseAnalytics, `Payment page visited`);
+	}, []);
 
 	const submitHandler = e => {
 		e.preventDefault();

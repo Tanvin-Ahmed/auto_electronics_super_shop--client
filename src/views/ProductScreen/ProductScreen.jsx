@@ -1,3 +1,4 @@
+import { logEvent } from "firebase/analytics";
 import React, { useEffect, useState } from "react";
 import {
 	Row,
@@ -21,6 +22,7 @@ import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
 import Meta from "../../components/Meta/Meta";
 import Rating from "../../components/Rating/Rating";
+import { firebaseAnalytics } from "../../firebase/config";
 
 const ProductScreen = () => {
 	const { id } = useParams();
@@ -53,6 +55,11 @@ const ProductScreen = () => {
 			dispatch(listProductDetails(id));
 		}
 	}, [id, dispatch, success, product]);
+
+	// add google analytics
+	useEffect(() => {
+		logEvent(firebaseAnalytics, `${product.name} details page visited`);
+	}, [product]);
 
 	const addToCartHandler = () => {
 		navigate(`/cart/${id}?qty=${qty}`);
