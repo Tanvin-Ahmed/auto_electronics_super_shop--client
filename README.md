@@ -17,3 +17,18 @@ Admin can add, update and delete products. Also admin can update some informatio
 - React Helmet
 - Stripe (International payment method)
 - React Bootstrap
+
+## Features
+
+#### User
+
+- Authentication
+- Add to cart
+- User profile
+- Online payment with international card
+
+#### Admin
+
+- Add, update and delete products
+- Update user information
+- Update order as delivered
