@@ -15,6 +15,7 @@ import StripeFormScreen from "../StripeFormScreen/StripeFormScreen";
 import Meta from "../../components/Meta/Meta";
 import { logEvent } from "firebase/analytics";
 import { firebaseAnalytics } from "../../firebase/config";
+import SslPayment from "../../components/SslPayment/SslPayment";
 
 const OrderScreen = () => {
 	const { id } = useParams();
@@ -23,6 +24,7 @@ const OrderScreen = () => {
 	const { order, loading, error } = useSelector(state => state.orderDetails);
 	const { userInfo } = useSelector(state => state.userLogin);
 	const { success } = useSelector(state => state.orderPay);
+	const { paymentMethod } = useSelector(state => state.cart);
 	const {
 		success: successDeliver,
 		loading: loadingDeliver,
@@ -109,7 +111,7 @@ const OrderScreen = () => {
 													<Image
 														src={product.image}
 														alt={product.name}
-														fluid
+														fluid="true"
 														rounded
 													/>
 												</Col>
@@ -164,7 +166,11 @@ const OrderScreen = () => {
 							{order.totalPrice ? (
 								order.isPaid ? null : (
 									<ListGroup.Item>
-										<StripeFormScreen />
+										{paymentMethod === "Sslcommerz" ? (
+											<SslPayment />
+										) : (
+											<StripeFormScreen />
+										)}
 									</ListGroup.Item>
 								)
 							) : null}

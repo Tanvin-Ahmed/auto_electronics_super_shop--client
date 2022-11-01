@@ -80,7 +80,7 @@ const PlaceOrderScreen = () => {
 													<Image
 														src={product.image}
 														alt={product.name}
-														fluid
+														fluid="true"
 														rounded
 													/>
 												</Col>

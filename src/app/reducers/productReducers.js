@@ -1,232 +1,197 @@
-import {
-	PRODUCT_LIST_FAIL,
-	PRODUCT_LIST_REQUEST,
-	PRODUCT_LIST_SUCCESS,
-	PRODUCT_DETAILS_REQUEST,
-	PRODUCT_DETAILS_FAIL,
-	PRODUCT_DETAILS_SUCCESS,
-	PRODUCT_DELETE_REQUEST,
-	PRODUCT_DELETE_SUCCESS,
-	PRODUCT_DELETE_FAIL,
-	PRODUCT_UPDATE_REQUEST,
-	PRODUCT_UPDATE_SUCCESS,
-	PRODUCT_UPDATE_FAIL,
-	PRODUCT_CREATE_REQUEST,
-	PRODUCT_CREATE_SUCCESS,
-	PRODUCT_CREATE_FAIL,
-	PRODUCT_CREATE_RESET,
-	PRODUCT_UPDATE_RESET,
-	PRODUCT_CREATE_REVIEW_REQUEST,
-	PRODUCT_CREATE_REVIEW_SUCCESS,
-	PRODUCT_CREATE_REVIEW_FAIL,
-	PRODUCT_CREATE_REVIEW_RESET,
-	TOP_RATED_PRODUCT_LIST_REQUEST,
-	TOP_RATED_PRODUCT_LIST_SUCCESS,
-	TOP_RATED_PRODUCT_LIST_FAIL,
-} from "../types";
+import { createSlice } from "@reduxjs/toolkit";
 
-const productState = {
-	products: [],
-	pages: "",
-	page: "",
-	loading: false,
-	error: "",
-};
+export const productReducer = createSlice({
+  name: "productReducer",
+  initialState: {
+    products: [],
+    pages: "",
+    page: "",
+    loading: false,
+    error: "",
+  },
 
-export const productReducer = (state = productState, action) => {
-	switch (action.type) {
-		case PRODUCT_LIST_REQUEST:
-			return { ...state, loading: true, error: "" };
+  reducers: {
+    setGetProductListRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setProductList: (state, action) => {
+      state.loading = false;
+      state.products = action.payload.products;
+      state.pages = action.payload.pages;
+      state.page = action.payload.page;
+    },
+    setGetProductListFail: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+  },
+});
 
-		case PRODUCT_LIST_SUCCESS:
-			return {
-				...state,
-				loading: false,
-				products: action.payload.products,
-				pages: action.payload.pages,
-				page: action.payload.page,
-			};
+export const topRatedProductReducer = createSlice({
+  name: "topRatedProductReducer",
+  initialState: {
+    products: [],
+    loading: false,
+    error: "",
+  },
+  reducers: {
+    setGetTopRatedProductListRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
 
-		case PRODUCT_LIST_FAIL:
-			return { ...state, error: action.payload, loading: false };
+    setTopRatedProductList: (state, action) => {
+      state.loading = false;
+      state.products = action.payload;
+    },
 
-		default:
-			return state;
-	}
-};
+    setGetTopRatedProductListFail: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+  },
+});
 
-const topRatedProductState = {
-	products: [],
-	loading: false,
-	error: "",
-};
+export const productDetailsReducer = createSlice({
+  name: "productDetailsReducer",
+  initialState: {
+    product: {},
+    loading: false,
+    error: "",
+  },
+  reducers: {
+    setGetProductDetailsRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
 
-export const topRatedProductReducer = (
-	state = topRatedProductState,
-	action
-) => {
-	switch (action.type) {
-		case TOP_RATED_PRODUCT_LIST_REQUEST:
-			return { ...state, loading: true, error: "" };
+    setProductDetails: (state, action) => {
+      state.loading = false;
+      state.product = action.payload;
+    },
 
-		case TOP_RATED_PRODUCT_LIST_SUCCESS:
-			return {
-				...state,
-				loading: false,
-				products: action.payload,
-			};
+    setGetProductDetailsFail: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+  },
+});
 
-		case TOP_RATED_PRODUCT_LIST_FAIL:
-			return { ...state, error: action.payload, loading: false };
+export const productDeleteReducer = createSlice({
+  name: "productDeleteReducer",
+  initialState: {
+    success: false,
+    loading: false,
+    error: "",
+  },
 
-		default:
-			return state;
-	}
-};
+  reducers: {
+    setProductDeleteRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setProductDeleteSuccess: (state, action) => {
+      state.loading = false;
+      state.success = true;
+    },
+    setProductDeleteFail: (state, action) => {
+      state.error = action.payload;
+      state.success = false;
+      state.loading = false;
+    },
+  },
+});
 
-const productDetailsState = {
-	product: {},
-	loading: false,
-	error: "",
-};
+export const productUpdateReducer = createSlice({
+  name: "productUpdateReducer",
+  initialState: {
+    success: false,
+    loading: false,
+    error: "",
+  },
+  reducers: {
+    setProductUpdateRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setProductUpdateSuccss: (state, action) => {
+      state.loading = false;
+      state.success = true;
+    },
+    setProductUpdateFail: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+      state.success = false;
+    },
+    resetProductUpdate: (state, action) => {
+      state = {
+        success: false,
+        loading: false,
+        error: "",
+      };
+    },
+  },
+});
 
-export const productDetailsReducer = (state = productDetailsState, action) => {
-	switch (action.type) {
-		case PRODUCT_DETAILS_REQUEST:
-			return { ...state, loading: true, error: "" };
+export const productCreateReducer = createSlice({
+  name: "productCreateReducer",
+  initialState: {
+    success: false,
+    loading: false,
+    error: "",
+  },
+  reducers: {
+    setProductCreateRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setProductCreateSuccess: (state, action) => {
+      state.loading = false;
+      state.success = true;
+    },
+    setProductCreateFail: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+      state.success = false;
+    },
+    resetProductCreateState: (state, action) => {
+      state = {
+        success: false,
+        loading: false,
+        error: "",
+      };
+    },
+  },
+});
 
-		case PRODUCT_DETAILS_SUCCESS:
-			return { ...state, loading: false, product: action.payload };
-
-		case PRODUCT_DETAILS_FAIL:
-			return { ...state, error: action.payload, loading: false };
-
-		default:
-			return state;
-	}
-};
-
-const productDeleteState = {
-	success: false,
-	loading: false,
-	error: "",
-};
-
-export const productDeleteReducer = (state = productDeleteState, action) => {
-	switch (action.type) {
-		case PRODUCT_DELETE_REQUEST:
-			return { ...state, loading: true, error: "" };
-
-		case PRODUCT_DELETE_SUCCESS:
-			return { ...state, loading: false, success: true };
-
-		case PRODUCT_DELETE_FAIL:
-			return {
-				...state,
-				error: action.payload,
-				success: false,
-				loading: false,
-			};
-
-		default:
-			return state;
-	}
-};
-
-const productUpdateState = {
-	success: false,
-	loading: false,
-	error: "",
-};
-
-export const productUpdateReducer = (state = productUpdateState, action) => {
-	switch (action.type) {
-		case PRODUCT_UPDATE_REQUEST:
-			return { ...state, loading: true, error: "" };
-
-		case PRODUCT_UPDATE_SUCCESS:
-			return { ...state, loading: false, success: true };
-
-		case PRODUCT_UPDATE_FAIL:
-			return {
-				error: action.payload,
-				success: false,
-				loading: false,
-			};
-
-		case PRODUCT_UPDATE_RESET:
-			return productUpdateState;
-
-		default:
-			return state;
-	}
-};
-
-const productCreateState = {
-	success: false,
-	loading: false,
-	error: "",
-};
-
-export const productCreateReducer = (state = productCreateState, action) => {
-	switch (action.type) {
-		case PRODUCT_CREATE_REQUEST:
-			return { ...state, loading: true, error: "" };
-
-		case PRODUCT_CREATE_SUCCESS:
-			return {
-				...state,
-				loading: false,
-				success: true,
-			};
-
-		case PRODUCT_CREATE_FAIL:
-			return {
-				error: action.payload,
-				success: false,
-				loading: false,
-			};
-
-		case PRODUCT_CREATE_RESET:
-			return productCreateState;
-
-		default:
-			return state;
-	}
-};
-
-const productCreateReviewState = {
-	success: false,
-	loading: false,
-	error: "",
-};
-
-export const productCreateReviewReducer = (
-	state = productCreateReviewState,
-	action
-) => {
-	switch (action.type) {
-		case PRODUCT_CREATE_REVIEW_REQUEST:
-			return { ...state, loading: true, error: "" };
-
-		case PRODUCT_CREATE_REVIEW_SUCCESS:
-			return {
-				...state,
-				loading: false,
-				success: true,
-			};
-
-		case PRODUCT_CREATE_REVIEW_FAIL:
-			return {
-				error: action.payload,
-				success: false,
-				loading: false,
-			};
-
-		case PRODUCT_CREATE_REVIEW_RESET:
-			return productCreateReviewState;
-
-		default:
-			return state;
-	}
-};
+export const productCreateReviewReducer = createSlice({
+  name: "productCreateReviewReducer",
+  initialState: {
+    success: false,
+    loading: false,
+    error: "",
+  },
+  reducers: {
+    setProductCreateReviewRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setProductCreateReviewSuccess: (state, action) => {
+      state.loading = false;
+      state.success = true;
+    },
+    setProductCreateReviewFail: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+      state.success = false;
+    },
+    resetProductCreateReviewState: (state, action) => {
+      state = {
+        success: false,
+        loading: false,
+        error: "",
+      };
+    },
+  },
+});

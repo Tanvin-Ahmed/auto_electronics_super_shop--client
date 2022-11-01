@@ -21,7 +21,7 @@ const Header = () => {
 				<Container>
 					<LinkContainer to="/">
 						<Navbar.Brand>
-							<img src={logo} className="brand" fluid alt="" />
+							<img src={logo} className="brand" fluid="true" alt="" />
 						</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle aria-controls="navbarScroll" />

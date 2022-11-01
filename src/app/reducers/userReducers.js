@@ -1,239 +1,191 @@
-import {
-	UPDATE_USER_PROFILE_FAIL,
-	UPDATE_USER_PROFILE_REQUEST,
-	UPDATE_USER_PROFILE_SUCCESS,
-	USER_DETAILS_FAIL,
-	USER_DETAILS_REQUEST,
-	USER_DETAILS_RESET,
-	USER_DETAILS_SUCCESS,
-	USER_LOGIN_FAIL,
-	USER_LOGIN_REQUEST,
-	USER_LOGIN_SUCCESS,
-	USER_LOGOUT,
-	USER_REGISTER_FAIL,
-	USER_REGISTER_REQUEST,
-	USER_REGISTER_SUCCESS,
-	USER_LIST_REQUEST,
-	USER_LIST_SUCCESS,
-	USER_LIST_FAIL,
-	USER_LIST_RESET,
-	USER_DELETE_REQUEST,
-	USER_DELETE_SUCCESS,
-	USER_DELETE_FAIL,
-	USER_UPDATE_REQUEST,
-	USER_UPDATE_SUCCESS,
-	USER_UPDATE_FAIL,
-	USER_UPDATE_RESET,
-} from "../types";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	userInfo: {},
-	loading: false,
-	error: "",
+  userInfo: {},
+  loading: false,
+  error: "",
 };
 
-export const userLoginReducer = (state = initialState, action) => {
-	switch (action.type) {
-		case USER_LOGIN_REQUEST:
-			return { ...state, loading: true, error: "" };
+export const userLoginReducer = createSlice({
+  name: "userLoginReducer",
+  initialState,
+  reducers: {
+    setUserLoginRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setUserLoginSuccess: (state, action) => {
+      state.loading = false;
+      state.userInfo = action.payload;
+    },
+    setUserLoginFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    setUserLogout: (state, action) => {
+      state.userInfo = {};
+    },
+  },
+});
 
-		case USER_LOGIN_SUCCESS:
-			return { ...state, loading: false, userInfo: action.payload };
-
-		case USER_LOGIN_FAIL:
-			return { ...state, loading: false, error: action.payload };
-
-		case USER_LOGOUT:
-			return { ...state, userInfo: {} };
-
-		default:
-			return state;
-	}
-};
-
-export const userRegisterReducer = (state = initialState, action) => {
-	switch (action.type) {
-		case USER_REGISTER_REQUEST:
-			return { ...state, loading: true, error: "" };
-
-		case USER_REGISTER_SUCCESS:
-			return { ...state, loading: false, userInfo: action.payload };
-
-		case USER_REGISTER_FAIL:
-			return { ...state, loading: false, error: action.payload };
-
-		default:
-			return state;
-	}
-};
+export const userRegisterReducer = createSlice({
+  name: "userRegisterReducer",
+  initialState,
+  reducers: {
+    setUserRegisterRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setUserRegisterSuccess: (state, action) => {
+      state.loading = false;
+      state.userInfo = action.payload;
+    },
+    setUserRegisterFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  },
+});
 
 const initialStateForUserDetails = {
-	user: {},
-	loading: false,
-	error: "",
+  user: {},
+  loading: false,
+  error: "",
 };
 
-export const userDetailsReducer = (
-	state = initialStateForUserDetails,
-	action
-) => {
-	switch (action.type) {
-		case USER_DETAILS_REQUEST:
-			return { ...state, loading: true, error: "" };
+export const userDetailsReducer = createSlice({
+  name: "userDetailsReducer",
+  initialState: initialStateForUserDetails,
+  reducers: {
+    setUserDetailsRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
 
-		case USER_DETAILS_SUCCESS:
-			return {
-				...state,
-				loading: false,
-				user: action.payload,
-			};
+    setUserDetailsSuccess: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    },
+    setUserDetailsFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    resetUserDetailsState: (state, action) => {
+      state = initialStateForUserDetails;
+    },
+  },
+});
 
-		case USER_DETAILS_FAIL:
-			return { ...state, loading: false, error: action.payload };
-
-		case USER_DETAILS_RESET:
-			return initialStateForUserDetails;
-
-		default:
-			return state;
-	}
-};
-
-const initialStateForUserUpdate = {
-	userInfo: {},
-	loading: false,
-	success: false,
-	error: "",
-};
-
-export const updateUserReducer = (
-	state = initialStateForUserUpdate,
-	action
-) => {
-	switch (action.type) {
-		case UPDATE_USER_PROFILE_REQUEST:
-			return { ...state, loading: true, error: "" };
-
-		case UPDATE_USER_PROFILE_SUCCESS:
-			return {
-				...state,
-				loading: false,
-				userInfo: action.payload,
-				success: true,
-			};
-
-		case UPDATE_USER_PROFILE_FAIL:
-			return {
-				...state,
-				loading: false,
-				success: false,
-				error: action.payload,
-			};
-
-		default:
-			return state;
-	}
-};
+export const updateUserReducer = createSlice({
+  name: "updateUserReducer",
+  initialState: {
+    userInfo: {},
+    loading: false,
+    success: false,
+    error: "",
+  },
+  reducers: {
+    setUpdateUserProfileRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setUpdateUserProfileSuccess: (state, action) => {
+      state.loading = false;
+      state.userInfo = action.payload;
+      state.success = true;
+    },
+    setUpdateUserProfileFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.success = false;
+    },
+  },
+});
 
 const initialStateForUserList = {
-	users: [],
-	loading: false,
-	error: "",
-	pages: 1,
-	page: 1,
+  users: [],
+  loading: false,
+  error: "",
+  pages: 1,
+  page: 1,
 };
 
-export const userListReducer = (state = initialStateForUserList, action) => {
-	switch (action.type) {
-		case USER_LIST_REQUEST:
-			return { ...state, loading: true, error: "" };
+export const userListReducer = createSlice({
+  name: "userListReducer",
+  initialState: initialStateForUserList,
+  reducers: {
+    setUserListRequest: (state, action) => {
+      state.loading = true;
+      state.error = "";
+    },
+    setUserListSuccess: (state, action) => {
+      state.error = "";
+      state.loading = false;
+      state.users = action.payload.users;
+      state.pages = action.payload.pages;
+      state.page = action.payload.page;
+    },
+    setUserListFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    resetUserListState: (state, action) => {
+      state = initialStateForUserList;
+    },
+  },
+});
 
-		case USER_LIST_SUCCESS:
-			return {
-				error: "",
-				loading: false,
-				users: action.payload.users,
-				page: action.payload.page,
-				pages: action.payload.pages,
-			};
-
-		case USER_LIST_FAIL:
-			return {
-				...state,
-				loading: false,
-				error: action.payload,
-			};
-
-		case USER_LIST_RESET:
-			return initialStateForUserList;
-
-		default:
-			return state;
-	}
-};
-
-const initialStateForUserDelete = {
-	success: false,
-	loading: false,
-	error: "",
-};
-
-export const userDeleteReducer = (
-	state = initialStateForUserDelete,
-	action
-) => {
-	switch (action.type) {
-		case USER_DELETE_REQUEST:
-			return { success: false, loading: true, error: "" };
-
-		case USER_DELETE_SUCCESS:
-			return {
-				...state,
-				loading: false,
-				success: true,
-			};
-
-		case USER_DELETE_FAIL:
-			return {
-				success: false,
-				loading: false,
-				error: action.payload,
-			};
-
-		default:
-			return state;
-	}
-};
+export const userDeleteReducer = createSlice({
+  name: "userDeleteReducer",
+  initialState: {
+    success: false,
+    loading: false,
+    error: "",
+  },
+  reducers: {
+    setUserDeleteRequest: (state, action) => {
+      state.loading = true;
+      state.success = false;
+      state.error = "";
+    },
+    setUserDeleteSuccess: (state, action) => {
+      state.loading = false;
+      state.success = true;
+    },
+    setUserDeleteFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.success = false;
+    },
+  },
+});
 
 const initForUserUpdate = {
-	success: false,
-	loading: false,
-	error: "",
+  success: false,
+  loading: false,
+  error: "",
 };
 
-export const userUpdateReducer = (state = initForUserUpdate, action) => {
-	switch (action.type) {
-		case USER_UPDATE_REQUEST:
-			return { success: false, loading: true, error: "" };
-
-		case USER_UPDATE_SUCCESS:
-			return {
-				...state,
-				loading: false,
-				success: true,
-			};
-
-		case USER_UPDATE_FAIL:
-			return {
-				success: false,
-				loading: false,
-				error: action.payload,
-			};
-
-		case USER_UPDATE_RESET:
-			return initForUserUpdate;
-
-		default:
-			return state;
-	}
-};
+export const userUpdateReducer = createSlice({
+  name: "userUpdateReducer",
+  initialState: initForUserUpdate,
+  reducers: {
+    setUserUpdateRequest: (state, action) => {
+      state.loading = true;
+      state.success = false;
+      state.error = "";
+    },
+    setUserUpdateSuccess: (state, action) => {
+      state.loading = false;
+      state.success = true;
+    },
+    setUserUpdateFail: (state, action) => {
+      state.success = false;
+      state.loading = false;
+      state.error = action.payload;
+    },
+    resetUserUpdateState: (state, action) => {
+      state = initForUserUpdate;
+    },
+  },
+});

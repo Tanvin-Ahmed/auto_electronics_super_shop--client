@@ -14,54 +14,54 @@ import ProductCarousel from "../../components/ProductCarousel/ProductCarousel";
 import { firebaseAnalytics } from "../../firebase/config";
 
 const HomeScreen = () => {
-	const { keyword, pageNumber } = useParams();
-	const dispatch = useDispatch();
-	const { products, loading, error, page, pages } = useSelector(
-		state => state.productList
-	);
+  const { keyword, pageNumber } = useParams();
+  const dispatch = useDispatch();
+  const { products, loading, error, page, pages } = useSelector(
+    (state) => state.productList
+  );
 
-	useEffect(() => {
-		dispatch(listProducts(keyword, pageNumber));
-	}, [dispatch, keyword, pageNumber]);
+  useEffect(() => {
+    dispatch(listProducts(keyword, pageNumber));
+  }, [dispatch, keyword, pageNumber]);
 
-	// add google analytics
-	useEffect(() => {
-		logEvent(firebaseAnalytics, "Home page visited");
-	}, []);
+  // add google analytics
+  useEffect(() => {
+    logEvent(firebaseAnalytics, "Home page visited");
+  }, []);
 
-	return (
-		<>
-			<Meta />
-			{keyword ? (
-				<Link to="/" className="btn btn-light mb-2">
-					Go Back
-				</Link>
-			) : (
-				<ProductCarousel />
-			)}
-			<h1>Latest Products</h1>
-			{loading ? (
-				<Loader />
-			) : error ? (
-				<Message variant="danger">{error}</Message>
-			) : (
-				<>
-					<Row>
-						{products.map(product => (
-							<Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-								<Product product={product} />
-							</Col>
-						))}
-					</Row>
-					<Paginate
-						pages={pages}
-						page={page}
-						keyword={keyword ? keyword : ""}
-					/>
-				</>
-			)}
-		</>
-	);
+  return (
+    <>
+      <Meta />
+      {keyword ? (
+        <Link to="/" className="btn btn-light mb-2">
+          Go Back
+        </Link>
+      ) : (
+        <ProductCarousel />
+      )}
+      <h1>Latest Products</h1>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <>
+          <Row>
+            {products.map((product) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ""}
+          />
+        </>
+      )}
+    </>
+  );
 };
 
 export default HomeScreen;
