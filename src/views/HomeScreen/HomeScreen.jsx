@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { listProducts } from "../../app/actions/productActions";
+import CustomerSwiper from "../../components/Custom/Swiper/CustomerSwiper";
 import Loader from "../../components/Loader/Loader";
 import Message from "../../components/Message/Message";
 import Meta from "../../components/Meta/Meta";
@@ -60,6 +61,10 @@ const HomeScreen = () => {
           />
         </>
       )}
+      <div className="mt-3">
+        <h1>Users Feedback</h1>
+        <CustomerSwiper />
+      </div>
     </>
   );
 };
