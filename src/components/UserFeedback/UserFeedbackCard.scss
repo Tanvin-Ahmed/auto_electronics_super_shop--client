@@ -20,4 +20,21 @@
   .email {
     font-weight: bold;
   }
+
+  button {
+    &:hover {
+      i {
+        animation: move 1s linear infinite alternate;
+      }
+
+      @keyframes move {
+        0% {
+          transform: translateX(-5px);
+        }
+        100% {
+          transform: translateX(5px);
+        }
+      }
+    }
+  }
 }

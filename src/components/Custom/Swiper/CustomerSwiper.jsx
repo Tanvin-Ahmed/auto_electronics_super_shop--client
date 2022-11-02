@@ -6,7 +6,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper";
 import { reviewData } from "../../../utils/swiperData";
-import UserFeedback from "../../UserFeedback/UserFeedback";
+import UserFeedbackCard from "../../UserFeedback/UserFeedbackCard";
 
 const CustomerSwiper = () => {
   const [swiperData, setSwiperData] = useState(reviewData || []);
@@ -25,7 +25,9 @@ const CustomerSwiper = () => {
         modifier: 1,
         slideShadows: true,
       }}
-      pagination={true}
+      pagination={{
+        clickable: true,
+      }}
       modules={[EffectCoverflow, Pagination]}
       className="mySwiper"
     >
@@ -35,7 +37,7 @@ const CustomerSwiper = () => {
             key={data._id}
             style={{ width: "200px", height: "400px" }}
           >
-            <UserFeedback feedbackData={data} />
+            <UserFeedbackCard feedbackData={data} />
           </SwiperSlide>
         ))}
     </Swiper>

@@ -12,6 +12,7 @@ import Meta from "../../components/Meta/Meta";
 import Paginate from "../../components/Paginate/Paginate";
 import Product from "../../components/Product/Product";
 import ProductCarousel from "../../components/ProductCarousel/ProductCarousel";
+import UserFeedback from "../../components/UserFeedback/Main/UserFeedback";
 import { firebaseAnalytics } from "../../firebase/config";
 
 const HomeScreen = () => {
@@ -61,10 +62,7 @@ const HomeScreen = () => {
           />
         </>
       )}
-      <div className="mt-3">
-        <h1>Users Feedback</h1>
-        <CustomerSwiper />
-      </div>
+      <UserFeedback />
     </>
   );
 };
