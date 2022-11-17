@@ -3,7 +3,7 @@ import cartReducer from "../reducers/cartReducers";
 
 const { actions: CartActions } = cartReducer;
 
-const rootUrl = "http://localhost:5000";
+const rootUrl = "https://supershop-server.herokuapp.com";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   try {

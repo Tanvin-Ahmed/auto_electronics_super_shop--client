@@ -6,7 +6,7 @@ import _ from "lodash";
 const { actions: feedbackActions } = feedbacksReducer;
 const { actions: userActions } = userLoginReducer;
 
-const rootUrl = "http://localhost:5000/feedback";
+const rootUrl = "https://supershop-server.herokuapp.com/feedback";
 
 export const addFeedback = (details) => async (dispatch, getState) => {
   try {

@@ -17,7 +17,7 @@ const { actions: productUpdateActions } = productUpdateReducer;
 const { actions: productCreateActions } = productCreateReducer;
 const { actions: productCreateReviewActions } = productCreateReviewReducer;
 
-const api = "http://localhost:5000";
+const api = "https://supershop-server.herokuapp.com";
 
 export const listProducts =
   (keyword = "", pageNumber = 1) =>

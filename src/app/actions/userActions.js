@@ -21,7 +21,7 @@ const { actions: userUpdateActions } = userUpdateReducer;
 const { actions: cartActions } = cartReducer;
 const { actions: myOrderActions } = myOrderReducer;
 
-const api = "http://localhost:5000";
+const api = "https://supershop-server.herokuapp.com";
 
 export const login = (info, navigate, from) => async (dispatch) => {
   try {
