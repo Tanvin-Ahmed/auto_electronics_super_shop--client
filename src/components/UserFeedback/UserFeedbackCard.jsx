@@ -17,7 +17,11 @@ const UserFeedbackCard = ({ feedbackData }) => {
   return (
     <>
       <div className="feedback">
-        <Avatar photoURL={feedbackData.photoURL} size="lg" />
+        <Avatar
+          photoURL={feedbackData?.user?.photoURL}
+          alt={feedbackData?.user?.name}
+          size="lg"
+        />
         <h5 className="name mt-2">{feedbackData.username}</h5>
         <small className="email">{feedbackData.email}</small>
         <p className="opinion">{getSubString(feedbackData.opinion, 100)}...</p>

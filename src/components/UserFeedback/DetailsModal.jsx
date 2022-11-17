@@ -17,10 +17,14 @@ const DetailsModal = ({ isModalOpen, setIsModalOpen, data }) => {
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <div className="text-center mb-3">
-          <Avatar photoURL={data.photoURL} size="lg" />
-          <h6 className="mt-2 font-weight-bold">{data.username}</h6>
-          <small className="font-weight-bold mb-2">{data.email}</small>
+        <div className="d-flex justify-content-center align-items-center flex-column mb-3">
+          <Avatar
+            photoURL={data?.user?.photoURL}
+            alt={data?.user?.name}
+            size="lg"
+          />
+          <h6 className="mt-2 font-weight-bold">{data?.user?.name}</h6>
+          <small className="font-weight-bold mb-2">{data?.user?.email}</small>
           <Rating value={data.rating} text="" />
         </div>
         <p>{data.opinion}</p>

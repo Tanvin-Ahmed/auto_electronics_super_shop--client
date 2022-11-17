@@ -16,7 +16,7 @@ const Size = {
   },
 };
 
-const Avatar = ({ photoURL = "", text = "", size = "md" }) => {
+const Avatar = ({ photoURL = "", alt = "", size = "md" }) => {
   return photoURL ? (
     <img
       style={{ borderRadius: "50%", ...Size[size], objectFit: "cover" }}
@@ -32,9 +32,10 @@ const Avatar = ({ photoURL = "", text = "", size = "md" }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        color: "white",
       }}
     >
-      <h1 style={{ color: "white" }}>{getSubString(text, 1)}</h1>
+      <h1 style={{ color: "white" }}>{getSubString(alt, 1)}</h1>
     </div>
   );
 };

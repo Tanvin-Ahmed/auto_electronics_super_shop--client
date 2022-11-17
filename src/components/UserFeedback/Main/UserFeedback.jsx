@@ -21,13 +21,19 @@ const UserFeedback = () => {
           Feel free to leave a feedback. We will try our best to solve your
           problem...!
         </p>
-        <button
-          className="btn-primary py-2"
-          onClick={handleOpen}
-          disabled={!userInfo._id}
-        >
-          Give Feedback
-        </button>
+        {userInfo?._id && userInfo?.feedback?._id ? (
+          <button className="btn-primary py-2" onClick={handleOpen}>
+            Update Feedback
+          </button>
+        ) : (
+          <button
+            className="btn-primary py-2"
+            onClick={handleOpen}
+            disabled={!userInfo._id}
+          >
+            Give Feedback
+          </button>
+        )}
         {!userInfo._id && (
           <p className="mt-2 text-danger">Please login to give feedback!!!</p>
         )}

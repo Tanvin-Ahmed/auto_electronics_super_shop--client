@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import "./CustomerSwiper.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper";
-import { reviewData } from "../../../utils/swiperData";
 import UserFeedbackCard from "../../UserFeedback/UserFeedbackCard";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getFeedbacks } from "../../../app/actions/feedbackActions";
 
 const CustomerSwiper = () => {
-  const [swiperData, setSwiperData] = useState(reviewData || []);
+  const dispatch = useDispatch();
+  const { feedbacks } = useSelector((state) => state.feedbackList);
 
-  return (
+  useEffect(() => {
+    dispatch(getFeedbacks());
+  }, [dispatch]);
+
+  return feedbacks.length > 0 ? (
     <Swiper
       effect={"coverflow"}
       loop={true}
@@ -31,17 +38,13 @@ const CustomerSwiper = () => {
       modules={[EffectCoverflow, Pagination]}
       className="mySwiper"
     >
-      {!!swiperData.length &&
-        swiperData.map((data) => (
-          <SwiperSlide
-            key={data._id}
-            style={{ width: "200px", height: "400px" }}
-          >
-            <UserFeedbackCard feedbackData={data} />
-          </SwiperSlide>
-        ))}
+      {feedbacks.map((data) => (
+        <SwiperSlide key={data._id} style={{ width: "200px", height: "400px" }}>
+          <UserFeedbackCard feedbackData={data} />
+        </SwiperSlide>
+      ))}
     </Swiper>
-  );
+  ) : null;
 };
 
 export default CustomerSwiper;

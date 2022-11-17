@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomModal from "../../Custom/CustomModal/CustomModal";
 import Avatar from "../../shared/Avatar/Avatar";
-import { Form } from "react-bootstrap";
+import { Button, ButtonGroup, Form } from "react-bootstrap";
+import {
+  addFeedback,
+  deleteFeedback,
+  udateFeedback,
+} from "../../../app/actions/feedbackActions";
+import Loader from "../../Loader/Loader";
 
 const GiveFeedbackModal = ({ isModalOpen, setIsModalOpen }) => {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { loading, error } = useSelector((state) => state.feedbackList);
   const [opinion, setOpinion] = useState("");
   const [rating, setRating] = useState("5");
+
+  useEffect(() => {
+    if (userInfo._id) {
+      setOpinion(userInfo?.feedback?.opinion || "");
+      setRating(userInfo?.feedback?.rating || "5");
+    }
+  }, [userInfo]);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -27,7 +42,24 @@ const GiveFeedbackModal = ({ isModalOpen, setIsModalOpen }) => {
       rating,
     };
 
-    console.log(data);
+    if (userInfo?.feedback?.opinion) {
+      if (opinion.trim().length)
+        dispatch(
+          udateFeedback({ details: data, _id: userInfo?.feedback?._id })
+        );
+    } else {
+      if (opinion.trim().length) dispatch(addFeedback(data));
+      else alert("Please give some feedback!");
+    }
+  };
+
+  const handleDelete = () => {
+    const data = {
+      feedbackId: userInfo?.feedback?._id,
+      userId: userInfo._id,
+    };
+
+    dispatch(deleteFeedback(data));
   };
 
   return (
@@ -39,9 +71,9 @@ const GiveFeedbackModal = ({ isModalOpen, setIsModalOpen }) => {
         </button>
       </div>
       <div className="d-flex align-items-center justify-content-center">
-        <Avatar text={userInfo.name} size="lg" />
+        <Avatar alt={userInfo.name} photoURL={userInfo?.photoURL} size="lg" />
       </div>
-      <form onSubmit={handleSubmit} className="text-center">
+      <form onSubmit={handleSubmit} className="text-center mb-3">
         <input
           type="text"
           className="form-control my-3"
@@ -66,6 +98,7 @@ const GiveFeedbackModal = ({ isModalOpen, setIsModalOpen }) => {
           placeholder="Leave your opinion..."
           value={opinion}
           onChange={(e) => setOpinion(e.target.value)}
+          required
         ></textarea>
 
         <Form.Select className="my-3" value={rating} onChange={handleRating}>
@@ -80,10 +113,21 @@ const GiveFeedbackModal = ({ isModalOpen, setIsModalOpen }) => {
           <option value="1">1</option>
         </Form.Select>
 
-        <button className="btn-primary p-2" type="submit">
-          Submit
-        </button>
+        <ButtonGroup>
+          <Button className="p-2" type="sumbit">
+            Submit
+          </Button>
+          <Button className="p-2 btn-danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </ButtonGroup>
       </form>
+      <div className="text-center">
+        {loading ? <Loader /> : null}
+        {!loading && error ? (
+          <p className="text-danger font-weight-bold">{error}</p>
+        ) : null}
+      </div>
     </CustomModal>
   );
 };
