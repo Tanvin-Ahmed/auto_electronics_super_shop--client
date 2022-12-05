@@ -1,12 +1,12 @@
-import { feedbacksReducer } from "../reducers/feedbackReducers";
 import axios from "axios";
-import { userLoginReducer } from "../reducers/userReducers";
 import _ from "lodash";
+import { feedbacksReducer } from "../reducers/feedbackReducers";
+import { userLoginReducer } from "../reducers/userReducers";
 
 const { actions: feedbackActions } = feedbacksReducer;
 const { actions: userActions } = userLoginReducer;
 
-const rootUrl = "https://supershop-server.herokuapp.com/feedback";
+const rootUrl = "https://auto-electronic-server.vercel.app/feedback";
 
 export const addFeedback = (details) => async (dispatch, getState) => {
   try {

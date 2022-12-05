@@ -17,7 +17,7 @@ const { actions: productUpdateActions } = productUpdateReducer;
 const { actions: productCreateActions } = productCreateReducer;
 const { actions: productCreateReviewActions } = productCreateReviewReducer;
 
-const api = "https://supershop-server.herokuapp.com";
+const api = "https://auto-electronic-server.vercel.app";
 
 export const listProducts =
   (keyword = "", pageNumber = 1) =>

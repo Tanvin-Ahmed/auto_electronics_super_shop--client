@@ -21,7 +21,7 @@ const { actions: userUpdateActions } = userUpdateReducer;
 const { actions: cartActions } = cartReducer;
 const { actions: myOrderActions } = myOrderReducer;
 
-const api = "https://supershop-server.herokuapp.com";
+const api = "https://auto-electronic-server.vercel.app";
 
 export const login = (info, navigate, from) => async (dispatch) => {
   try {

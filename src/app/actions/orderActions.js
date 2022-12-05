@@ -15,7 +15,7 @@ const { actions: orderDeliveredActions } = orderDeliveredReducer;
 const { actions: myOrderActions } = myOrderReducer;
 const { actions: orderListActions } = orderListReducer;
 
-const rootUrl = "https://supershop-server.herokuapp.com";
+const rootUrl = "https://auto-electronic-server.vercel.app";
 
 export const createOrder = (info) => async (dispatch, getState) => {
   try {
